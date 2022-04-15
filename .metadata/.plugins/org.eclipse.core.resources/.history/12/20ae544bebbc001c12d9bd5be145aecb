@@ -1,0 +1,49 @@
+#include "calculosFloat.h"
+#include <stdio.h>
+#include <stdlib.h>
+
+/// @brief Se ingresan dos numeros
+/// @param numeroUno - Se carga el primer numero ingresado
+/// @param numeroDos - Se carga el segundo numero ingresado
+/// @return resultado - Retorna el resultado de la funcion
+
+float utn_multiplicar(float numeroUno, float numeroDos) {
+
+	float resultado;
+
+	resultado = numeroUno * numeroDos;
+
+	return resultado;
+}
+float utn_dividir(float numeroUno, float numeroDos) {
+
+	float resultado;
+
+	if(numeroDos != 0){
+	resultado = numeroUno / numeroDos;
+	}
+
+	return resultado;
+}
+float utn_restarConResultadoPositivo(float numeroUno, float numeroDos) {
+
+	float resultado;
+
+	if (numeroUno > numeroDos) {
+		resultado = numeroUno - numeroDos;
+	} else {
+		resultado = numeroDos - numeroUno;
+	}
+
+	return resultado;
+}
+float utn_sumar(float numeroUno, float numeroDos){
+
+	float resultado;
+
+	resultado = numeroUno + numeroDos;
+
+	return resultado;
+}
+
+

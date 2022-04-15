@@ -1,0 +1,267 @@
+#include <stdio.h>
+#include <stdlib.h>
+#define DESCUENTO 0.90
+#define INTERES 1.25
+#define BITCOIN 4800744.71
+
+int getInt(int *pNumeroIngresado, char *mensaje, char *mensajeError, int maximo, int minimo, int maximoDeReintentos);
+int getFloat(float *pNumeroIngresado, char *mensaje, char *mensajeError, float maximo, float minimo, int maximoDeReintentos);
+float utn_multiplicar(float numeroUno, float numeroDos);
+float utn_dividir(float numeroUno, float numeroDos);
+float utn_restarConResultadoPositivo(float numeroUno, float numeroDos);
+
+int main(void) {
+	setbuf(stdout, NULL);
+
+	int opcionMenu;
+	int validacionRetorno;
+	int kilometros;
+	int flagKm;
+	int flagPrecios;
+	int flagCalculos;
+	float precioAerolineas;
+	float precioLatam;
+	float precioTarjetaDebitoAerolineas;
+	float precioTarjetaCreditoAerolineas;
+	float precioBitcoinAerolineas;
+	float precioUnitarioAerolineas;
+	float precioTarjetaDebitoLatam;
+	float precioTarjetaCreditoLatam;
+	float precioBitcoinLatam;
+	float precioUnitarioLatam;
+	float diferenciaDePrecios;
+
+	precioAerolineas = 0;
+	precioLatam = 0;
+	kilometros = 0;
+	flagKm = 0;
+	flagPrecios = 0;
+
+	flagCalculos = 0;
+
+	do {
+		printf("1) Ingresar los kilometros: (km=%d)\n", kilometros);
+		printf("2) Ingresar Precio de Vuelos: (Aerolíneas= $ %.2f, Latam= $ %.2f) \n", precioAerolineas, precioLatam);
+		printf("3) Calcular todos los costos \n");
+		printf("4) Informar Resultados \n");
+		printf("5) Carga forzada de datos \n");
+		printf("6) Salir \n\n");
+
+		validacionRetorno = getInt(&opcionMenu, "Ingrese una opcion:\n", "La opcion es incorrecta:\n", 6, 1, 1);
+
+		if (validacionRetorno == 0) {
+			if (opcionMenu == 1 || opcionMenu == 5 || opcionMenu == 6 || flagKm == 1) {
+				switch (opcionMenu) {
+				case 1:
+					if(flagKm == 0){
+						validacionRetorno = getInt(&kilometros, "Ingrese cantidad de Kilometros: (200km - 15000km) \n", "Error, ingrese los km dentro del rango establecido.\n\n", 15000, 200, 3);
+
+						if(validacionRetorno == 0){
+						flagKm = 1;
+						}
+					} else {
+						printf("Ya ingresaste los km \n");
+					}
+
+
+					break;
+				case 2:
+					if (flagPrecios == 0) {
+						do {
+							printf("1) Ingresar precio de vuelo Aerolineas: (mayor a 0) \n");
+							scanf("%f", &precioAerolineas);
+						} while (precioAerolineas < 0);
+						do {
+							printf("2) Ingresar precio de vuelo Latam: (mayor a 0) \n");
+							scanf("%f", &precioLatam);
+						} while (precioAerolineas < 0);
+
+						flagPrecios = 1;
+					} else {
+						printf("Ya ingresaste los precios. Realice los calculos.\n\n");
+					}
+					break;
+
+				case 3:
+					if (flagCalculos == 0) {
+						precioTarjetaDebitoAerolineas = utn_multiplicar(
+								precioAerolineas, DESCUENTO);
+						precioTarjetaCreditoAerolineas = utn_multiplicar(
+								precioAerolineas, INTERES);
+						precioBitcoinAerolineas = utn_dividir(precioAerolineas,
+								BITCOIN);
+						precioUnitarioAerolineas = utn_dividir(precioAerolineas,
+								kilometros);
+						precioTarjetaDebitoLatam = utn_multiplicar(precioLatam,
+								DESCUENTO);
+						precioTarjetaCreditoLatam = utn_multiplicar(precioLatam,
+								INTERES);
+						precioBitcoinLatam = utn_dividir(precioLatam, BITCOIN);
+						precioUnitarioLatam = utn_dividir(precioLatam,
+								kilometros);
+						diferenciaDePrecios = utn_restarConResultadoPositivo(
+								precioLatam, precioAerolineas);
+
+						flagCalculos = 1;
+					} else {
+						printf(
+								"Ya realizaste los calculos. Informe los resultados.\n\n");
+					}
+
+					break;
+				case 4:
+					printf("KMs Ingresados: %d\n\n", kilometros);
+					printf("Precio Aerolineas: $ %.2f\n", precioAerolineas);
+					printf("a) Precio con tarjeta de debito: $ %.2f\n", precioTarjetaDebitoAerolineas);
+					printf("b) Precio con tarjeta de credito: $ %.2f\n", precioTarjetaCreditoAerolineas);
+					printf("c) Precio pagando con bitcoin: %.4f BTC\n", precioBitcoinAerolineas);
+					printf("d) Precio unitario: $ %.2f\n\n", precioUnitarioAerolineas);
+					printf("Precio Latam: $ %.2f\n", precioLatam);
+					printf("a) Precio con tarjeta de debito: $ %.2f\n", precioTarjetaDebitoLatam);
+					printf("b) Precio con tarjeta de credito: $ %.2f\n", precioTarjetaCreditoLatam);
+					printf("c) Precio pagando con bitcoin: %.4f BTC\n", precioBitcoinLatam);
+					printf("d) Precio unitario: $ %.2f\n\n", precioUnitarioLatam);
+					printf("La diferencia de precio es: $ %.2f\n\n", diferenciaDePrecios);
+
+					system("pause");
+
+					break;
+				case 5:
+					kilometros = 7090;
+					precioAerolineas = 162965;
+					precioLatam = 159339;
+
+					precioTarjetaDebitoAerolineas = utn_multiplicar(precioAerolineas, DESCUENTO);
+					precioTarjetaCreditoAerolineas = utn_multiplicar(precioAerolineas, INTERES);
+					precioBitcoinAerolineas = utn_dividir(precioAerolineas, BITCOIN);
+					precioUnitarioAerolineas = utn_dividir(precioAerolineas, kilometros);
+					precioTarjetaDebitoLatam = utn_multiplicar(precioLatam, DESCUENTO);
+					precioTarjetaCreditoLatam = utn_multiplicar(precioLatam, INTERES);
+					precioBitcoinLatam = utn_dividir(precioLatam, BITCOIN);
+					precioUnitarioLatam = utn_dividir(precioLatam, kilometros);
+					diferenciaDePrecios = utn_restarConResultadoPositivo(precioLatam, precioAerolineas);
+
+					printf("KMs Ingresados: %d\n\n", kilometros);
+					printf("Precio Aerolineas: $ %.2f\n", precioAerolineas);
+					printf("a) Precio con tarjeta de debito: $ %.2f\n", precioTarjetaDebitoAerolineas);
+					printf("b) Precio con tarjeta de credito: $ %.2f\n", precioTarjetaCreditoAerolineas);
+					printf("c) Precio pagando con bitcoin: %.4f BTC\n", precioBitcoinAerolineas);
+					printf("d) Precio unitario: $ %.2f\n\n", precioUnitarioAerolineas);
+					printf("Precio Latam: $ %.2f\n", precioLatam);
+					printf("a) Precio con tarjeta de debito: $ %.2f\n", precioTarjetaDebitoLatam);
+					printf("b) Precio con tarjeta de credito: $ %.2f\n", precioTarjetaCreditoLatam);
+					printf("c) Precio pagando con bitcoin: %.4f BTC\n", precioBitcoinLatam);
+					printf("d) Precio unitario: $ %.2f\n\n", precioUnitarioLatam);
+					printf("La diferencia de precio es: $ %.2f\n\n", diferenciaDePrecios);
+
+					system("pause");
+
+					break;
+				case 6:
+					printf("Adios. \n");
+					break;
+				}
+			} else {
+				printf("Primero debes ingresar los kilometros. \n");
+			}
+		}
+
+	} while (opcionMenu != 6);
+
+	return 0;
+}
+
+int getInt(int *pNumeroIngresado, char *mensaje, char *mensajeError, int maximo,
+		int minimo, int maximoDeReintentos) {
+
+	int auxNumeroIngresado;
+	int retorno;
+	retorno = -1;
+
+	if (pNumeroIngresado != NULL && maximo >= minimo
+			&& maximoDeReintentos >= 0) {
+		do {
+			printf("%s", mensaje);
+			scanf("%d", &auxNumeroIngresado);
+			maximoDeReintentos--;
+
+			if (auxNumeroIngresado >= minimo && auxNumeroIngresado <= maximo) {
+				*pNumeroIngresado = auxNumeroIngresado;
+				retorno = 0;
+				break;
+			} else {
+				printf("%s", mensajeError);
+			}
+
+		} while (maximoDeReintentos > 0);
+	}
+
+	return retorno;
+}
+
+int getFloat(float *pNumeroIngresado, char *mensaje, char *mensajeError,
+		float maximo, float minimo, int maximoDeReintentos) {
+
+	float auxNumeroIngresado;
+	int retorno;
+	retorno = -1;
+
+	if (pNumeroIngresado != NULL && maximo >= minimo
+			&& maximoDeReintentos >= 0) {
+		do {
+			printf("%s", mensaje);
+			scanf("%f", &auxNumeroIngresado);
+			maximoDeReintentos--;
+
+			if (auxNumeroIngresado >= minimo && auxNumeroIngresado <= maximo) {
+				*pNumeroIngresado = auxNumeroIngresado;
+				retorno = 0;
+				break;
+			} else {
+				printf("%s", mensajeError);
+			}
+
+		} while (maximoDeReintentos > 0);
+	}
+
+	return retorno;
+}
+
+float utn_multiplicar(float numeroUno, float numeroDos) {
+
+	float resultado;
+
+	resultado = numeroUno * numeroDos;
+
+	return resultado;
+}
+float utn_dividir(float numeroUno, float numeroDos) {
+
+	float resultado;
+
+	if (numeroDos != 0) {
+		resultado = numeroUno / numeroDos;
+	}
+
+	return resultado;
+}
+float utn_restarConResultadoPositivo(float numeroUno, float numeroDos) {
+
+	float resultado;
+
+	if (numeroUno > numeroDos) {
+		resultado = numeroUno - numeroDos;
+	} else {
+		resultado = numeroDos - numeroUno;
+	}
+
+	return resultado;
+}
+float utn_sumar(float numeroUno, float numeroDos) {
+
+	float resultado;
+
+	resultado = numeroUno + numeroDos;
+
+	return resultado;
+}

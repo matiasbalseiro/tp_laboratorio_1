@@ -1,0 +1,41 @@
+/*
+ ============================================================================
+ Name        : calculos.c
+ Author      : 
+ Version     :
+ Copyright   : Your copyright notice
+ Description : Hello World in C, Ansi-style
+ ============================================================================
+ */
+
+#include <stdio.h>
+#include <stdlib.h>
+#define DESCUENTO 0.90
+#define INTERES 1.25
+#define BITCOIN 4800744.71
+#define
+
+int main(void) {
+
+	int kilometros;
+
+	float precioTarjetaDebito;
+	float precioTarjetaCredito;
+	float precioBitcoin;
+	float precioUnitario;
+	float diferenciaDePrecios;
+
+	printf("Ingresar Kilometros: ");
+	scanf("%d", &kilometros);
+
+	if(operacion =! )
+
+
+
+
+
+
+
+
+	return EXIT_SUCCESS;
+}
