@@ -385,3 +385,11 @@ gcc -o TP_1.exe "src\\TP_1.o" "src\\bibliotecaInputs.o" "src\\calculosFloat.o"
 Info: Internal Builder is used for build
 gcc -O0 -g3 -Wall -c -fmessage-length=0 -o "src\\TP_1.o" "..\\src\\TP_1.c" 
 gcc -o TP_1.exe "src\\TP_1.o" "src\\bibliotecaInputs.o" "src\\calculosFloat.o" 
+15:42:04 **** Rebuild of configuration Debug for project TP_1 ****
+Info: Internal Builder is used for build
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -o "src\\calculosFloat.o" "..\\src\\calculosFloat.c" 
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -o "src\\TP_1.o" "..\\src\\TP_1.c" 
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -o "src\\bibliotecaInputs.o" "..\\src\\bibliotecaInputs.c" 
+gcc -o TP_1.exe "src\\TP_1.o" "src\\bibliotecaInputs.o" "src\\calculosFloat.o" 
+Info: Nothing to build for TP_1
+Info: Nothing to build for TP_1
