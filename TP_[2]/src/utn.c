@@ -25,7 +25,7 @@ static int getDni(char* pResultado, int longitud);
  */
 static int getString(char* cadena, int len){
 	int retorno=-1;
-	char bufferString[4096]; // *****************************
+	char bufferString[4096];
 
 	if(cadena != NULL && len > 0){
 		fflush(stdin);
@@ -88,7 +88,7 @@ static int esNumerica(char* cadena, int len)
 }
 
 /**
- * \brief Solicita un numero al usuario, leuego de verificarlo devuelve el resultado
+ * \brief Solicita un numero al usuario, luego de verificarlo devuelve el resultado
  * \param pResultado Puntero al espacio de memoria donde se dejara el resultado de la funcion
  * \param mensaje Es el mensaje a ser mostrado
  * \param mensajeError Es el mensaje de Error a ser mostrado
@@ -355,16 +355,13 @@ static int getDni(char* pResultado, int longitud){
 
 
 
-/**
- * \brief Solicita un DNI al usuario, luego de verificarlo devuelve el resultado
- * \param
- * \param longitud
- * \param mensaje
- * \param mensajeError
- * \param reintentos
- * \return
- *
- */
+/// @brief Solicita un DNI al usuario, luego de verificarlo devuelve el resultado
+/// @param pResultado pResultado Puntero al espacio de memoria donde se dejara el resultado de la funcion
+/// @param longitud Es la longitud del array resultado
+/// @param mensaje Es el mensaje a ser mostrado
+/// @param mensajeError Es el mensaje de Error a ser mostrado
+/// @param reintentos Cantidad de reintentos
+/// @return Retorna 0 si se obtuvo el numero flotante y -1 si no
 int utn_getDni(char* pResultado, int longitud,char* mensaje, char* mensajeError, int reintentos){
 	char bufferString[4096];
 	int retorno = -1;

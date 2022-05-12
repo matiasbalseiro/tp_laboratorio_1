@@ -12,7 +12,11 @@ static int increaseId(){
     return id;
 }
 
-
+/// @brief  Para indicar que todas las posiciones del array están vacías, esta función pone la bandera
+///         (isEmpty) en TRUE en todas las posiciones del array.
+/// @param list Puntero al array de pasajeros
+/// @param len Largo del array
+/// @return Retorna (-1) si hay error [Largo invalido o puntero nulo] - (0) si esta Ok
 int initPassengers(Passenger *list, int len) {
 
 	int retorno;
@@ -28,6 +32,18 @@ int initPassengers(Passenger *list, int len) {
 	return retorno;
 }
 
+/// @brief Agrega en un array de pasajeros existente los valores recibidos
+///        como parámetro en la primer posición libre.
+/// @param list Puntero al array de pasajeros
+/// @param len Largo del array
+/// @param id Id del pasajero
+/// @param name Nombre del pasajero
+/// @param lastName Apellido del pasajero
+/// @param price Precio del pasaje
+/// @param typePassenger Clase de vuelo
+/// @param flycode Codigo de vuelo
+/// @param statusFlight Estado de vuelo
+/// @return Retorna (-1) si hay error [Largo invalido o puntero NULL o sin espacio libre] - (0) si es Ok
 int addPassenger(Passenger *list, int len, int id, char name[], char lastName[], float price, int typePassenger, char flycode[], int statusFlight){
 	int retorno;
 	int indexLibre;
@@ -100,6 +116,12 @@ int addPassenger(Passenger *list, int len, int id, char name[], char lastName[],
 	return retorno;
 }
 
+/// @brief Busca un pasajero recibiendo como parámetro de búsqueda su Id.
+/// @param list Puntero al array de pasajeros
+/// @param len Largo del array
+/// @param id Id del pasajero
+/// @return Retorna la posicion del indice del pasajero o (-1) si [Largo invalido o
+///         puntero NULL o pasajero no encontrado]
 int findPassengerById(Passenger *list, int len, int id) {
 	int retorno;
 	retorno = -1;
@@ -115,6 +137,12 @@ int findPassengerById(Passenger *list, int len, int id) {
 		return retorno;
 	}
 
+/// @brief Elimina de manera lógica (isEmpty Flag en 1) un pasajero recibiendo como parámetro su Id.
+/// @param list Puntero al array de pasajeros
+/// @param len Largo del array
+/// @param id Id del pasajero
+/// @return Retorna (-1) si hay error [Largo invalido o puntero NULL o si no
+///         encontro al pasajero] - (0) si es Ok
 int removePassenger(Passenger *list, int len, int id) {
 
 	int retorno;
@@ -141,6 +169,11 @@ int removePassenger(Passenger *list, int len, int id) {
 	return retorno;
 }
 
+/// @brief Modifica al pasajero por el id
+/// @param list Puntero al array de pasajeros
+/// @param len Largo del array
+/// @param id id del pasajero
+/// @return Retorna -1 si hay error
 int modifyPassenger(Passenger *list, int len, int id){
 
 	int retorno = -1;
@@ -224,6 +257,12 @@ int modifyPassenger(Passenger *list, int len, int id){
 	return retorno;
 }
 
+/// @brief Ordena el array de pasajeros por apellido y
+///        tipo de pasajero de manera ascendente o descendente.
+/// @param list Puntero al array de pasajeros
+/// @param len Largo del array
+/// @param order Orden ascendente o descendente
+/// @return Retorna (-1) si hay error [Largo invalido o puntero NULL] - (0) si es Ok
 int sortPassengers(Passenger *list, int len, int order) {
 
 	Passenger bufferLastName;
@@ -234,7 +273,7 @@ int sortPassengers(Passenger *list, int len, int order) {
 	retorno = -1;
 
 	if (list != NULL && len > 0) {
-		if (utn_getNumero(&bufferOrder, "\n1: Orden ascendente (A - Z) \n2: Orden descendente (Z - A).\n\nIndique orden: \n", "ERROR\n", 1, 2, 2) == 0) {
+		if (utn_getNumero(&bufferOrder, "\n1: Orden ascendente (A - Z) \n2: Orden descendente (Z - A)\n\nIndique orden: ", "ERROR\n", 1, 2, 2) == 0) {
 			order = bufferOrder;
 			}
 
@@ -274,6 +313,10 @@ int sortPassengers(Passenger *list, int len, int order) {
 	return retorno;
 }
 
+/// @brief Imprime el array de pasajeros de forma encolumnada.
+/// @param list Puntero al array de pasajeros
+/// @param length Largo del array
+/// @return Retorna (-1) si hay error [Largo invalido o puntero NULL] - (0) si es Ok
 int printPassengers(Passenger *list, int length) {
 	int retorno;
 	retorno = -1;
@@ -288,6 +331,12 @@ int printPassengers(Passenger *list, int length) {
 return retorno;
 }
 
+/// @brief Ordena el array de pasajeros por código de vuelo y
+///        estado de vuelo de manera ascendente o descendente.
+/// @param list Puntero al array de pasajeros
+/// @param len Largo del array
+/// @param order [1] ascendente - [0] descendente
+/// @return Retorna (-1) si hay error [Largo invalido o puntero NULL] - (0) si es Ok
 int sortPassengersByCode(Passenger *list, int len, int order) {
 	int retorno;
 	retorno = -1;
@@ -299,7 +348,7 @@ int sortPassengersByCode(Passenger *list, int len, int order) {
 	retorno = -1;
 
 	if (list != NULL && len > 0){
-		if (utn_getNumero(&bufferOrder, "\n1: Orden dascendente (A - Z), (1 - 9) \n2: Orden descendente (Z - A), (9 - 1).\n\nIndique orden: \n", "ERROR\n", 1, 2, 2) == 0) {
+		if (utn_getNumero(&bufferOrder, "\n1: Orden dascendente (1 - 9), (A - Z) \n2: Orden descendente (9 - 1), (Z - A)\n\nIndique orden: ", "ERROR\n", 1, 2, 2) == 0) {
 			order = bufferOrder;
 			}
 
@@ -307,25 +356,25 @@ int sortPassengersByCode(Passenger *list, int len, int order) {
 			isOrder = 1;
 			len--;
 			for (i = 0; i < len; i++){
-				if (isOrder){
-					if (stricmp(list[i].flycode, list[i + 1].flycode) < 0){
-						bufferFlyCode = list[i];
-						list[i] = list[i + 1];
-						list[i + 1] = bufferFlyCode;
-						isOrder = 0;
-					} else if (stricmp(list[i].flycode, list[i + 1].flycode) == 0 && list[i].typePassenger < list[i + 1].typePassenger){
-						bufferFlyCode = list[i];
-						list[i] = list[i + 1];
-						list[i + 1] = bufferFlyCode;
-						isOrder = 0;
-					}
-				}else{
+				if (order == 1){
 					if (stricmp(list[i].flycode, list[i + 1].flycode) > 0){
 						bufferFlyCode = list[i];
 						list[i] = list[i + 1];
 						list[i + 1] = bufferFlyCode;
 						isOrder = 0;
 					} else if (stricmp(list[i].flycode, list[i + 1].flycode) == 0 && list[i].typePassenger > list[i + 1].typePassenger){
+						bufferFlyCode = list[i];
+						list[i] = list[i + 1];
+						list[i + 1] = bufferFlyCode;
+						isOrder = 0;
+					}
+				}else{
+					if (stricmp(list[i].flycode, list[i + 1].flycode) < 0){
+						bufferFlyCode = list[i];
+						list[i] = list[i + 1];
+						list[i + 1] = bufferFlyCode;
+						isOrder = 0;
+					} else if (stricmp(list[i].flycode, list[i + 1].flycode) == 0 && list[i].typePassenger < list[i + 1].typePassenger){
 						bufferFlyCode = list[i];
 						list[i] = list[i + 1];
 						list[i + 1] = bufferFlyCode;
@@ -340,22 +389,32 @@ int sortPassengersByCode(Passenger *list, int len, int order) {
 
 return 0;
 }
+/// @brief
+/// @param list Puntero al array de pasajeros
+/// @param len Largo del array
+/// @param id Id del pasajero
+/// @return Retorna la posicion del indice del pasajero o (-1) si [Largo invalido o
+///         puntero NULL o pasajero no encontrado]
+//int findIndexById(Passenger *list, int len, int id){
+//
+//	int retorno = -1;
+//
+//	if(list != NULL && len > 0 && id > 0 ){
+//			for(int i = 0; i < len; i++){
+//				if(list[i].id == id && list[i].isEmpty == 0){
+//					retorno = i;
+//					break;
+//				}
+//			}
+//		}
+//	return retorno;
+//}
 
-int findIndexById(Passenger *list, int len, int id){
-
-	int retorno = -1;
-
-	if(list != NULL && len > 0 && id > 0 ){
-			for(int i = 0; i < len; i++){
-				if(list[i].id == id && list[i].isEmpty == 0){
-					retorno = i;
-					break;
-				}
-			}
-		}
-	return retorno;
-}
-
+/// @brief Busca si hay un espacio libre para cargar un pasajero
+/// @param list Puntero al array de pasajeros
+/// @param len Array length
+/// @return Retorna si hay un espacio vacio o (-1) si [Largo invalido o
+///         puntero NULL o pasajero no encontrado]
 int findIndexByIsEmpty(Passenger *list, int len){
 
 	int retorno = -1;
@@ -371,6 +430,10 @@ int findIndexByIsEmpty(Passenger *list, int len){
 	return retorno;
 }
 
+/// @brief Verifica si hay al menos un pasajero cargado
+/// @param list Puntero al array de pasajeros
+/// @param len Largo del array
+/// @return Retorna 1 si hay al menos un pasajero cargado 0 si no
 int aPassenger(Passenger *list, int len) {
 	int retorno = 0;
 	if (list != NULL && len > 0) {
@@ -384,6 +447,8 @@ int aPassenger(Passenger *list, int len) {
 	return retorno;
 }
 
+/// @brief Imprime el array de un solo pasajero de forma encolumnada
+/// @param list Puntero al array de pasajeros
 void printPassenger(Passenger list) {
 
 	if (list.isEmpty == 0) {
@@ -391,21 +456,24 @@ void printPassenger(Passenger list) {
 	}
 }
 
+/// @brief Muestra el encabezado del informe de pasajeros
 void printHeader(){
 
-	printf("|%*s|%*s|%*s|%*s|%*s|%*s|%*s|\n\n",-13,"ID",-13, "Nombre", -13, "Apellido", -13, "Precio", -13, "Clase", -13, "Codigo", -13, "Estado");
+	printf("\n|%*s|%*s|%*s|%*s|%*s|%*s|%*s|\n\n",-13,"ID",-13, "Nombre", -13, "Apellido", -13, "Precio", -13, "Clase", -13, "Codigo", -13, "Estado");
 }
 
 
-
+/// @brief Carga forzada de pasajeros
+/// @param list Puntero al array de pasajeros
+/// @return Retorna (-1) si hay error - (0) si es Ok
 int forcedCharge(Passenger *list){
 	int retorno = -1;
 	int i;
-	Passenger passengers[LEN_FORCED_CHARGE] = {{4001, "BART", "SIMPSON", 165000.50, "65QWE4", 3, 1, 0},
-												{4002, "MARGE", "BOUVIE", 156000.90, "1D23AS", 2, 2, 0},
-												{4003, "NELSON", "MUNTZ", 110000.00, "5E6W4E", 1, 1, 0},
-												{4004, "PATTY", "SELMA", 320000.65, "3E12QW", 3, 1, 0},
-												{4005, "NED", "FLANDERS", 245000.00, "89WQE7", 1, 2, 0}};
+	Passenger passengers[LEN_FORCED_CHARGE] = {{4001, "BART", "SIMPSON", 165000.50, "AAA", 3, 1, 0},
+												{4002, "MARGE", "BOUVIE", 156000.90, "AAA", 2, 2, 0},
+												{4003, "NELSON", "MUNTZ", 110000.00, "CCC", 1, 1, 0},
+												{4004, "PATTY", "SELMA", 320000.65, "222CCC", 3, 1, 0},
+												{4005, "NED", "FLANDERS", 245000.00, "CCC12", 1, 2, 0}};
 
 	if(list != NULL){
 		for(i = 0; i < 5; i++){
@@ -418,6 +486,10 @@ int forcedCharge(Passenger *list){
 	return retorno;
 }
 
+/// @brief Cuenta la cantidad de pasajeros cargados
+/// @param list Puntero al array de pasajeros
+/// @param len Largo del array
+/// @return Retorna la cantidad de pasajeros
 int countPassengers(Passenger *list, int len){
 
 	int countPassenger;
@@ -434,6 +506,10 @@ int countPassengers(Passenger *list, int len){
 	return countPassenger;
 }
 
+/// @brief Calcula el precio total de los pasajes
+/// @param list Puntero al array de pasajeros
+/// @param len Largo del array
+/// @return Retorna el precio total de los pasajes
 float totalPrice(Passenger *list, int len){
 
 	float total;
@@ -451,6 +527,10 @@ float totalPrice(Passenger *list, int len){
 	return total;
 }
 
+/// @brief Calcula el promedio del precio de los pasajes
+/// @param list Puntero al array de pasajeros
+/// @param len Largo del array
+/// @return Retorna el promedio de los pasajes
 float averagePrice(Passenger *list, int len){
 
 	float average;
@@ -466,6 +546,11 @@ float averagePrice(Passenger *list, int len){
 	return average;
 }
 
+/// @brief Calcula cuantos pasajeros se excedieron del
+///        promedio del precio de los pasajes
+/// @param list Puntero al array de pasajeros
+/// @param len Largo del array
+/// @return Retorna la cantidad de pasajeros excedidos
 int exceedAverage(Passenger *list, int len){
 
 	int count;
@@ -482,13 +567,16 @@ int exceedAverage(Passenger *list, int len){
 				count++;
 			}
 		}
-
 	}
 
 
 	return count;
 }
 
+/// @brief Muestra el informe de los pasajeros
+/// @param list Puntero al array de pasajeros
+/// @param len Largo del array
+/// @return Retorna el informe de los pasajeros
 int reportPassenger(Passenger *list, int len){
 
 	int retorno = -1;
@@ -531,8 +619,9 @@ int reportPassenger(Passenger *list, int len){
 
 								break;
 							case 3:
-
-								printf("ALGO POR HACER");
+								sortPassengersByCode(list, len, order);
+								printHeader();
+								printPassengers(list, len);
 								break;
 							case 4:
 								printf("Regresando al menu principal...");
