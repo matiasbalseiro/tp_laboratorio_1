@@ -5,7 +5,7 @@
 #include "ArrayPassenger.h"
 
 #define CANTIDAD_PASAJEROS 2000
-#define LENGH_NAME 50
+#define LENGH_NAME 51
 #define LEN_FLYCODE 50
 
 int main(void) {
@@ -14,17 +14,17 @@ int main(void) {
 	Passenger pasajeros[CANTIDAD_PASAJEROS];
 	int opcionMenu;
 	int id;
-	char name[LENGH_NAME];
-	char lastName[LENGH_NAME];
-	int price;
-	int typePassenger;
-	char flycode[LEN_FLYCODE];
-	int statusFlight;
+	char bufferName[LENGH_NAME];
+	char bufferLastName[LENGH_NAME];
+	float bufferPrice;
+	int bufferTypePassenger;
+	char bufferFlyCode[LEN_FLYCODE];
+	int bufferStatusFlight;
 
 	id = 0;
-	price = 0;
-	typePassenger = 0;
-	statusFlight = 0;
+	bufferPrice = 0;
+	bufferTypePassenger = 0;
+	bufferStatusFlight = 0;
 
 	if(initPassengers(pasajeros, CANTIDAD_PASAJEROS) == 0){
 		do
@@ -43,7 +43,15 @@ int main(void) {
 					"\nError opcion invalida", 1, 6, 2) == 0) {
 					switch(opcionMenu){
 					case 1:
-						addPassenger(pasajeros, CANTIDAD_PASAJEROS, id, name, lastName, price, typePassenger, flycode, statusFlight);
+						utn_getNombre(bufferName,LEN_NAME,"\nIndique el nombre del pasajero: ","\nERROR, ingrese un nombre valido.\n",2);
+						utn_getNombre(bufferLastName,LEN_NAME,"\nIndique el apellido del pasajero: ","\nERROR, ingrese un apellido valido.\n",2);
+						utn_getNumeroFlotante(&bufferPrice, "\nIndique el precio del pasaje. ($0 - $3000000): $", "ERROR\n", 0, 3000000, 2);
+						utn_getNumero(&bufferTypePassenger, "\n1: Primera clase.\n2: Clase ejecutiva.\n3: Clase premium.\n4: Clase turista.\n\nIndique clase de viaje: ", "ERROR\n", 1, 4, 2);
+						utn_getDescripcion(bufferFlyCode, LEN_CODE,"\nIndique codigo de vuelo. (Hasta 9 caracteres): ", "ERROR\n", 2);
+						utn_getNumero(&bufferStatusFlight, "\n1: ACTIVO.\n2: CANCELADO.\n\nIndique, estado de vuelo: ", "ERROR\n", 1, 2, 2);
+
+						addPassenger(pasajeros, CANTIDAD_PASAJEROS, id, bufferName, bufferLastName, bufferPrice, bufferTypePassenger, bufferFlyCode, bufferStatusFlight);
+
 						break;
 					case 2:
 						if(aPassenger(pasajeros, CANTIDAD_PASAJEROS) == 1){
