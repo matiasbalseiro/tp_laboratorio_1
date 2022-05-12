@@ -4,6 +4,8 @@
 #include "ArrayPassenger.h"
 #include "utn.h"
 
+static const char TXT_TYPES[5][51] = {" ", "Primera", "Ejecutiva", "Premium", "Turista"};
+static const char TXT_STATUS[3][51] = {" ","ACTIVO", "CANCELADO"};
 static int increaseId();
 
 /// @brief Incrementa el id
@@ -49,42 +51,15 @@ int addPassenger(Passenger *list, int len, int id, char name[], char lastName[],
 	int retorno;
 	int indexLibre;
 	retorno = -1;
-	int flagName;
-	int flagLastName;
-	int flagPrice;
-	int flagTypePassenger;
-	int flagFlyCode;
-	flagName = 0;
-	flagLastName= 0;
-	flagPrice= 0;
-	flagTypePassenger= 0;
-	flagFlyCode = 0;
-
-
-
 
 	if(list != NULL && len > 0 && name != NULL && lastName != NULL && flycode != NULL){
 			indexLibre = findIndexByIsEmpty(list, len);
 			if(indexLibre != -1){
 					strncpy(list[indexLibre].name, name, sizeof(list[indexLibre].name));
-					//flagName = 1;
-				//if(flagName == 1){
-						strncpy(list[indexLibre].lastName, lastName, sizeof(list[indexLibre].lastName));
-						//flagLastName = 1;
-				//}
-				//if(flagLastName == 1){
-						list[indexLibre].price = price;
-						//flagPrice = 1;
-				//}
-				//if(flagPrice == 1){
+					strncpy(list[indexLibre].lastName, lastName, sizeof(list[indexLibre].lastName));
+					list[indexLibre].price = price;
 					list[indexLibre].typePassenger = typePassenger;
-					//flagTypePassenger = 1;
-				//}
-				//if(flagTypePassenger == 1){
 					strncpy(list[indexLibre].flycode, flycode, sizeof(list[indexLibre].flycode));
-					//flagFlyCode = 1;
-				//}
-				//if(flagFlyCode == 1){
 					list[indexLibre].statusFlight = statusFlight;
 					list[indexLibre].id = increaseId();
 					list[indexLibre].isEmpty = 0;
@@ -93,7 +68,6 @@ int addPassenger(Passenger *list, int len, int id, char name[], char lastName[],
 					printPassenger(list[indexLibre]);
 
 					printf("\nCARGA EXITOSA. SE DIO DE ALTA AL PASAJERO\n");
-			//}
 		}
 	}
 	return retorno;
@@ -219,7 +193,7 @@ int modifyPassenger(Passenger *list, int len, int id){
 								}
 								break;
 							case 5:
-								if(utn_getDescripcion(bufferFlyCode, LEN_CODE,"Indique codigo de vuelo. (Hasta 10 caracteres): ", "ERROR, ingrese el codigo dentro del rango establecido.", 2) == 0){
+								if(utn_getDescripcion(bufferFlyCode, LEN_CODE,"Indique codigo de vuelo. (Hasta 9 caracteres): ", "ERROR, ingrese el codigo dentro del rango establecido.", 2) == 0){
 									strncpy(list[index].flycode, bufferFlyCode, sizeof(list[index].flycode));
 									printf("Modificacion realizada.");
 									printHeader();
@@ -433,8 +407,6 @@ int aPassenger(Passenger *list, int len) {
 /// @brief Imprime el array de un solo pasajero de forma encolumnada
 /// @param list Puntero al array de pasajeros
 void printPassenger(Passenger list) {
-	static const char TXT_TYPES[5][51] = {" ", "Primera", "Ejecutiva", "Premium", "Turista"};
-	static const char TXT_STATUS[3][51] = {" ","ACTIVO", "CANCELADO"};
 
 	if(list.isEmpty == 0) {
 		printf("|%*d|%*s|%*s|%*.2f|%*s|%*s|%*s|\n", -13, list.id, -13, list.name, -13, list.lastName, -13, list.price, -13, TXT_TYPES[list.typePassenger], -13, list.flycode, -13, TXT_STATUS[list.statusFlight]);
@@ -458,7 +430,7 @@ int forcedCharge(Passenger *list){
 												{4002, "MARGE", "BOUVIE", 156000.90, "BR156E", 2, 2, 0},
 												{4003, "NELSON", "MUNTZ", 110000.00, "FR897G", 1, 1, 0},
 												{4004, "PATTY", "SELMA", 320000.65, "CH847R", 3, 1, 0},
-												{4005, "NED", "FLANDERS", 245000.00, "NZ748R", 1, 2, 0}};
+												{4005, "NED", "FLANDERS", 245000.00, "AR748R", 1, 2, 0}};
 
 	if(list != NULL){
 		for(i = 0; i < 5; i++){

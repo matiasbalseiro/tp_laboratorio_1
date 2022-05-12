@@ -67,13 +67,12 @@ static int getInt(int* pResultado){
  * \return Retorna 1 (verdadero) si la cadena es numerica, 0 (falso) si no lo es y -1 en caso de error
  *
  */
-static int esNumerica(char* cadena, int len)
-{
-	int retorno = -1; // ERROR
+static int esNumerica(char* cadena, int len){
+	int retorno = -1;
 	int i;
 
 	if(cadena != NULL && len > 0){
-		retorno = 1; // VERDADERO
+		retorno = 1;
 		for(i=0;i<len && cadena[i] != '\0';i++){
 			if(i==0 && (cadena[i] == '+' || cadena[i] == '-')){
 				continue;
@@ -254,7 +253,7 @@ int utn_getNombre(char* pResultado, int longitud,char* mensaje, char* mensajeErr
 	while(reintentos>=0){
 		reintentos--;
 		printf("%s",mensaje);
-		if(getNombre(bufferString,sizeof(bufferString)) == 0 && strnlen(bufferString,sizeof(bufferString)) < longitud ){
+		if(getNombre(bufferString,sizeof(bufferString)) == 0 && strnlen(bufferString,sizeof(bufferString)) < longitud && bufferString[0] != '\0' && bufferString[0] != ' '){
 			strncpy(pResultado,bufferString,longitud);
 			retorno = 0;
 			break;
