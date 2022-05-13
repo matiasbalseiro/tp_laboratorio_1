@@ -106,15 +106,14 @@ int removePassenger(Passenger *list, int len, int id) {
 	retorno = -1;
 	int index;
 	int bufferId;
-	int idPassenger;
 
 	if (list != NULL && len > 0) {
 		printHeader();
 		printPassengers(list, len);
 			if(utn_getNumero(&bufferId, "\n\nIndique ID a dar de baja. \n", "ERROR\n", 3000, 7000, 2) == 0){
-				idPassenger = bufferId;
+				id = bufferId;
 		}
-		index = findPassengerById(list, len, idPassenger);
+		index = findPassengerById(list, len, id);
 		if (index != -1) {
 			list[index].isEmpty = 1;
 			printf("BAJA EXITOSA. SE HAN GUARDADO LOS CAMBIOS\n");
@@ -137,7 +136,6 @@ int modifyPassenger(Passenger *list, int len, int id){
 	int index;
 	int opcionMenu;
 	int bufferId;
-	int idPassenger;
 	char bufferName[LEN_NAME];
 	char bufferLastName[LEN_NAME];
 	float bufferPrice;
@@ -148,9 +146,9 @@ int modifyPassenger(Passenger *list, int len, int id){
 		printHeader();
 		printPassengers(list, len);
 		if (utn_getNumero(&bufferId, "\nIndique ID a modificar. \n", "ERROR\n", 3000, 7000, 2) == 0) {
-			idPassenger = bufferId;
+			id = bufferId;
 		}
-		index = findPassengerById(list, len, idPassenger);
+		index = findPassengerById(list, len, id);
 		if (index != -1){
 			printHeader();
 			printPassenger(list[index]);
@@ -346,26 +344,6 @@ int sortPassengersByCode(Passenger *list, int len, int order) {
 
 return 0;
 }
-/// @brief
-/// @param list Puntero al array de pasajeros
-/// @param len Largo del array
-/// @param id Id del pasajero
-/// @return Retorna la posicion del indice del pasajero o (-1) si [Largo invalido o
-///         puntero NULL o pasajero no encontrado]
-//int findIndexById(Passenger *list, int len, int id){
-//
-//	int retorno = -1;
-//
-//	if(list != NULL && len > 0 && id > 0 ){
-//			for(int i = 0; i < len; i++){
-//				if(list[i].id == id && list[i].isEmpty == 0){
-//					retorno = i;
-//					break;
-//				}
-//			}
-//		}
-//	return retorno;
-//}
 
 /// @brief Busca si hay un espacio libre para cargar un pasajero
 /// @param list Puntero al array de pasajeros
@@ -520,13 +498,11 @@ int exceedAverage(Passenger *list, int len){
 
 	if(list != NULL && len > 0){
 		for(i = 0; i < len; i++){
-			if(list[i].isEmpty == 1 && list[i].price > promedio){
+			if(list[i].isEmpty == 0 && list[i].price > promedio){
 				count++;
 			}
 		}
 	}
-
-
 	return count;
 }
 
