@@ -3,6 +3,9 @@
 #include "LinkedList.h"
 #include "Passenger.h"
 #include "parser.h"
+#include "Controller.h"
+#include "utn.h"
+#include "menu.h"
 
 
 /** \brief Carga los datos de los pasajeros desde el archivo data.csv (modo texto).
@@ -18,11 +21,13 @@ int controller_loadFromText(char* path , LinkedList* pArrayListPassenger){
 	int retorno = -1;
 
 	if(path != NULL && pArrayListPassenger != NULL){
-		if((parch = fopen(path, "r")) != NULL){
+		parch = fopen(path, "r");
+		if(parch != NULL){
 			parser_PassengerFromText(parch , pArrayListPassenger);
 			printf("Archivo en modo texto cargado correctamente.");
 			retorno = 0;
 		}
+
 	}
 	fclose(parch);
 
@@ -62,24 +67,39 @@ int controller_loadFromBinary(char* path , LinkedList* pArrayListPassenger){
  */
 int controller_addPassenger(LinkedList* pArrayListPassenger){
 
-	//Passenger* nuevoPasajero;
+	int retorno = 0;
+	Passenger* nuevoPasajero;
+	char auxNombre[128];
+	char auxApellido[128];
+	float auxPrecio;
+	int auxTipoPasajero;
+	char auxCodigoVuelo[128];
+	int auxEstadoVuelo;
+	int nextId;
+
 
 	if(pArrayListPassenger != NULL){
-
-//		if (!utn_getNombre(bufferName, LEN_NAME, "\nIndique el nombre del pasajero: ", "\nERROR, ingrese un nombre valido.\n", 2) &&
-//			!utn_getNombre(bufferLastName, LEN_NAME, "\nIndique el apellido del pasajero: ", "\nERROR, ingrese un apellido valido.\n", 2) &&
-//			!utn_getNumeroFlotante(&bufferPrice, "\nIndique el precio del pasaje. ($0 - $3000000): $", "ERROR\n", 0, 3000000, 2) &&
-//			!utn_getNumero(&bufferTypePassenger, "\n1: Primera clase.\n2: Clase ejecutiva.\n3: Clase premium.\n4: Clase turista.\n\nIndique clase de viaje: ", "ERROR\n", 1, 4, 2) &&
-//			!utn_getDescripcion(bufferFlyCode, LEN_CODE, "\nIndique codigo de vuelo. (Hasta 9 caracteres): ", "ERROR\n", 2) &&
-//			!utn_getNumero(&bufferStatusFlight, "\n1: ACTIVO.\n2: CANCELADO.\n\nIndique, estado de vuelo: ", "ERROR\n", 1, 2, 2)) {
-//			nuevoPasajero = Passenger_newParametros(char *idStr, char *nombreStr, char *apellidoStr, char *precioStr, char *codigoVueloStr, char *tipoPasajeroStr, char *estadoVueloStr);
-//		}
-//
-//								addPassenger(pasajeros, MAX_PASSENGERS, id, bufferName, bufferLastName, bufferPrice, bufferTypePassenger, bufferFlyCode, bufferStatusFlight);
-
+		if (!utn_getNombre(auxNombre, 128, "\nIndique el nombre del pasajero: ", "\nERROR, ingrese un nombre valido.\n", 2) &&
+			!utn_getNombre(auxApellido, 128, "\nIndique el apellido del pasajero: ", "\nERROR, ingrese un apellido valido.\n", 2) &&
+			!utn_getNumeroFlotante(&auxPrecio, "\nIndique el precio del pasaje. ($0 - $3000000): $", "ERROR\n", 0, 3000000, 2) &&
+			!utn_getNumero(&auxTipoPasajero, "\n1: FirstClass.\n2: EconomyClass.\n3: ExecutiveClass.\n\nIndique clase de viaje: ", "ERROR\n", 1, 3, 2) &&
+			!utn_getDescripcion(auxCodigoVuelo, 128, "\nIndique codigo de vuelo. (Hasta 9 caracteres): ", "ERROR\n", 2) &&
+			!utn_getNumero(&auxEstadoVuelo, "\n1: Aterrizado.\n2: En Horario.\n3: En Vuelo.\n4: Demorado.\n\nIndique, estado de vuelo: ", "ERROR\n", 1, 4, 2)) {
+			nuevoPasajero = Passenger_new();
+			nextId = Passenger_lastId(pArrayListPassenger) + 1;
+			Passenger_setId(nuevoPasajero, nextId);
+			Passenger_setNombre(nuevoPasajero, auxApellido);
+			Passenger_setApellido(nuevoPasajero, auxNombre);
+			Passenger_setPrecio(nuevoPasajero, auxPrecio);
+			Passenger_setTipoPasajero(nuevoPasajero, auxTipoPasajero);
+			Passenger_setCodigoVuelo(nuevoPasajero, auxCodigoVuelo);
+			Passenger_setEstadoVuelo(nuevoPasajero, auxEstadoVuelo);
+			ll_add(pArrayListPassenger, nuevoPasajero);
+			printf("\nCARGA EXITOSA. SE DIO DE ALTA AL PASAJERO\n");
+			retorno = 0;
+		}
 	}
-
-    return 1;
+    return retorno;
 }
 
 /** \brief Modificar datos de pasajero
@@ -91,8 +111,12 @@ int controller_addPassenger(LinkedList* pArrayListPassenger){
  */
 int controller_editPassenger(LinkedList* pArrayListPassenger){
 
+	int retorno = -1;
 
-    return 1;
+	if(pArrayListPassenger != NULL){
+		Passenger_edit(pArrayListPassenger);
+	}
+    return retorno;
 }
 
 /** \brief Baja de pasajero
@@ -104,8 +128,36 @@ int controller_editPassenger(LinkedList* pArrayListPassenger){
  */
 int controller_removePassenger(LinkedList* pArrayListPassenger){
 
+	int retorno = -1;
+	Passenger* unPasajero;
+	int auxId;
+	int lastId;
+	int index;
+	char respuesta;
 
-    return 1;
+	lastId = Passenger_lastId(pArrayListPassenger);
+
+	if(pArrayListPassenger != NULL){
+		controller_ListPassenger(pArrayListPassenger);
+		utn_getNumero(&auxId, "\n\nIndique ID a dar de baja. \n", "ERROR\n", 1, lastId, 2);
+		index = controller_findPassengerById(pArrayListPassenger, auxId);
+		if(index != -1){
+			printHeader();
+			Passenger_printPassenger(pArrayListPassenger, index);
+			unPasajero = (Passenger*)ll_get(pArrayListPassenger, index);
+			utn_getString(&respuesta, "\nDesea remover ese pasajero? s/n \n", "ERROR\n");
+			if(respuesta == 's'){
+				ll_remove(pArrayListPassenger, index);
+				Passenger_delete(unPasajero);
+				printf("\nBAJA EXITOSA. SE HAN GUARDADO LOS CAMBIOS\n");
+				retorno = 0;
+			}
+		} else {
+			printf("ERROR, no se ha encontrado pasajero asociado a ese ID.\n");
+
+		}
+	}
+    return retorno;
 }
 
 /** \brief Listar pasajeros
@@ -130,7 +182,7 @@ int controller_ListPassenger(LinkedList* pArrayListPassenger){
 	if(pArrayListPassenger != NULL){
 		printf("\n|%*s|%*s|%*s|%*s|%*s|%*s|%*s|\n\n",-13,"ID",-13, "Nombre", -13, "Apellido", -13, "Precio", -13, "Clase", -13, "Codigo", -13, "Estado");
 		for(int i = 0; i < ll_len(pArrayListPassenger); i++){
-			nuevoPasajero = (Passenger*) ll_get(pArrayListPassenger, i); //como es puntero a void hay que castear // el get obtiene algo que esta creado en memoria
+			nuevoPasajero = (Passenger*)ll_get(pArrayListPassenger, i); //como es puntero a void hay que castear // el get obtiene algo que esta creado en memoria
 			Passenger_getId(nuevoPasajero, &id);
 			Passenger_getNombre(nuevoPasajero, nombre);
 			Passenger_getApellido(nuevoPasajero, apellido);
@@ -156,8 +208,13 @@ int controller_ListPassenger(LinkedList* pArrayListPassenger){
  */
 int controller_sortPassenger(LinkedList* pArrayListPassenger){
 
+	int retorno = -1;
 
-    return 1;
+
+	if(pArrayListPassenger != NULL){
+
+	}
+		return retorno;
 }
 
 /** \brief Guarda los datos de los pasajeros en el archivo data.csv (modo texto).
@@ -177,7 +234,7 @@ int controller_saveAsText(char* path , LinkedList* pArrayListPassenger){
  *
  * \param path char*
  * \param pArrayListPassenger LinkedList*
- * \return int
+ * \return inT
  *
  */
 int controller_saveAsBinary(char* path , LinkedList* pArrayListPassenger){
@@ -186,3 +243,22 @@ int controller_saveAsBinary(char* path , LinkedList* pArrayListPassenger){
     return 1;
 }
 
+
+int controller_findPassengerById(LinkedList* pArrayListPassenger, int idBuscado){
+
+	int retorno = -1;
+	int idAux;
+	int len = ll_len(pArrayListPassenger);
+	Passenger* unPasajero = NULL;
+
+	if(pArrayListPassenger != NULL && idBuscado >= 0){
+			for(int i = 0; i < len; i++){
+				unPasajero = (Passenger*)ll_get(pArrayListPassenger, i);
+				if(!Passenger_getId(unPasajero, &idAux) && idAux == idBuscado){
+					retorno = i;
+					break;
+				}
+			}
+		}
+	return retorno;
+}

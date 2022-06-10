@@ -18,9 +18,50 @@ int menuPrincipal(){
 							" 7. Ordenar empleados\n"
 							" 8. Guardar los datos de los empleados en el archivo data.csv (modo texto).\n"
 							" 9. Guardar los datos de los empleados en el archivo data.csv (modo binario).\n"
-							" 10. Salir\n\n"
+							" 10. Salir\n"
+							"\n***************************************************************************\n"
 							"\nElija una opcion: ",
-							"Error, no es una opcion valida\n", 1, 10, 3);
+							"\nError, no es una opcion valida\n", 1, 10, 2);
+
+	return opc;
+}
+
+int menuModificar(){
+
+	int opc;
+
+	utn_getNumero(&opc,
+					"\n*****************************MENU MODIFICAR*****************************\n\n"
+							"1. Nombre \n"
+							"2. Apellido \n"
+							"3. Precio\n"
+							"4. Tipo de pasajero\n"
+							"5. Codigo de vuelo\n"
+							"6. Estado de vuelo\n"
+							"7. Regresar al menu principal\n"
+					"\n**************************************************************************\n"
+							"\nElija una opcion: ",
+							"\nError opcion invalida", 1, 7, 2);
+
+	return opc;
+}
+
+int menuOrdenar(){
+
+	int opc;
+
+	utn_getNumero(&opc,
+					"\n*****************************MENU ORDENAR*****************************\n\n"
+							"1. Nombre \n"
+							"2. Apellido \n"
+							"3. Precio\n"
+							"4. Tipo de pasajero\n"
+							"5. Codigo de vuelo\n"
+							"6. Estado de vuelo\n"
+							"7. Regresar al menu principal\n"
+					"\n**************************************************************************\n"
+							"\nElija una opcion: ",
+							"\nError opcion invalida", 1, 7, 2);
 
 	return opc;
 }

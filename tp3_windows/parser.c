@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include "LinkedList.h"
 #include "Passenger.h"
+#include "parser.h"
+#include "utn.h"
 
 /** \brief Parsea los datos los datos de los pasajeros desde el archivo data.csv (modo texto).
  *
@@ -26,6 +28,7 @@ int parser_PassengerFromText(FILE* pFile , LinkedList* pArrayListPassenger){
 		fscanf(pFile, "%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%[^\n]\n", id, nombre, apellido, precio, codigoVuelo, tipoPasajero, estadoVuelo);
 		while(!feof(pFile)){
 			if(fscanf(pFile, "%[^,],%[^,],%[^,],%[^,],%[^,],%[^,],%[^\n]\n", id, nombre, apellido, precio, codigoVuelo, tipoPasajero, estadoVuelo) == 7){
+				printf("%s,%s,%s,%s,%s,%s,%s\n", id, nombre, apellido, precio, codigoVuelo, tipoPasajero, estadoVuelo);
 				nuevoPasajero = Passenger_newParametros(id, nombre, apellido, precio, codigoVuelo, tipoPasajero, estadoVuelo);
 				if(nuevoPasajero != NULL){
 					ll_add(pArrayListPassenger, nuevoPasajero);

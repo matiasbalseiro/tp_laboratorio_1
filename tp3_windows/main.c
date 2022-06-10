@@ -26,11 +26,12 @@
 int main(){
 	setbuf(stdout, NULL);
 
-    int option = 0;
+    int opcion;
 
     LinkedList* listaPasajeros = ll_newLinkedList();
     do{
-        switch(menuPrincipal()){
+    	opcion = menuPrincipal();
+        switch(opcion){
             case 1:
                 controller_loadFromText(ARCHIVO_TXT,listaPasajeros);
                 break;
@@ -56,6 +57,7 @@ int main(){
 				break;
 
 			case 7:
+				controller_sortPassenger(listaPasajeros);
 				break;
 
 			case 8:
@@ -66,7 +68,7 @@ int main(){
 				controller_saveAsBinary(ARCHIVO_BIN , listaPasajeros);
 				break;
         }
-    }while(option != 10);
+    }while(opcion != 10);
     return 0;
 }
 

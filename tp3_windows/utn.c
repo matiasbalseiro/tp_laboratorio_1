@@ -13,6 +13,8 @@ static int getNombre(char* pResultado,int longitud);
 static int esDescripcion(char* cadena,int longitud);
 static int getDescripcion(char* pResultado, int longitud);
 static int getDni(char* pResultado, int longitud);
+static int getFechaDeNacimiento(char* pResultado, int longitud);
+
 
 
 /**
@@ -373,6 +375,78 @@ int utn_getDni(char* pResultado, int longitud,char* mensaje, char* mensajeError,
 			break;
 		}
 		printf("%s",mensajeError);
+	}
+	return retorno;
+}
+
+static int getFechaDeNacimiento(char* pResultado, int longitud){
+    int retorno=-1;
+    char buffer[4096];
+
+    if(pResultado != NULL){
+    	if(	getString(buffer,sizeof(buffer))==0 && esNumerica(buffer,sizeof(buffer)) && strnlen(buffer,sizeof(buffer))<longitud){
+    		strncpy(pResultado,buffer,longitud);
+			retorno = 0;
+    	}
+    }
+    return retorno;
+}
+
+
+
+/// @brief Solicita un DNI al usuario, luego de verificarlo devuelve el resultado
+/// @param pResultado pResultado Puntero al espacio de memoria donde se dejara el resultado de la funcion
+/// @param longitud Es la longitud del array resultado
+/// @param mensaje Es el mensaje a ser mostrado
+/// @param mensajeError Es el mensaje de Error a ser mostrado
+/// @param reintentos Cantidad de reintentos
+/// @return Retorna 0 si se obtuvo el numero flotante y -1 si no
+int utn_getFechaDeNacimiento(char* pResultado, int longitud,char* mensaje, char* mensajeError, int reintentos){
+	char bufferString[4096];
+	int retorno = -1;
+	while(reintentos>=0){
+		reintentos--;
+		printf("%s",mensaje);
+		if(getFechaDeNacimiento(bufferString,sizeof(bufferString)) == 0 && strnlen(bufferString,sizeof(bufferString)) < longitud && bufferString[2] == '/' && bufferString[5] == '/'){
+			strncpy(pResultado,bufferString,longitud);
+			retorno = 0;
+			break;
+		}
+		printf("%s",mensajeError);
+	}
+	return retorno;
+}
+
+int utn_getString(char* pResultado, char* mensaje, char* mensajeError) {
+
+	int retorno = -1;
+	char buffer[1024];
+
+	if (mensaje != NULL && mensajeError != NULL) {
+		printf("%s", mensaje);
+		fflush(stdin);
+		fgets(buffer, sizeof(buffer), stdin);
+		buffer[strlen(buffer) - 1] = '\0';
+		if (utn_isLetter(buffer) == 1) {
+			strcpy(pResultado, buffer);
+			retorno = 0;
+		} else {
+			printf("%s", mensajeError);
+		}
+	}
+	return retorno;
+}
+
+int utn_isLetter(char* pResultado)
+{
+	int retorno = 1;
+	int i = 0;
+
+	while(pResultado[i] != '\0'){
+		if((pResultado[i] < 'a' || pResultado[i] > 'z') && (pResultado[i] < 'A' || pResultado[i] > 'Z') && (pResultado[i] != ' ')){
+			retorno = 0;
+		}
+		i++;
 	}
 	return retorno;
 }

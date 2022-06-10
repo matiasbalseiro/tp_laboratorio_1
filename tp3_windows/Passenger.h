@@ -37,7 +37,7 @@ int Passenger_getApellido(Passenger* this,char* apellido);
 int Passenger_setCodigoVuelo(Passenger* this,char* codigoVuelo);
 int Passenger_getCodigoVuelo(Passenger* this,char* codigoVuelo);
 
-int Passenger_setTipoPasajero(Passenger* this,int tipoPasajero);
+int Passenger_setTipoPasajero(Passenger* this, int tipoPasajero);
 int Passenger_getTipoPasajero(Passenger* this,int* tipoPasajero);
 
 int Passenger_setPrecio(Passenger* this,float precio);
@@ -46,6 +46,18 @@ int Passenger_getPrecio(Passenger* this,float* precio);
 int Passenger_setEstadoVuelo(Passenger* this,int estadoVuelo);
 int Passenger_getEstadoVuelo(Passenger* this,int* estadoVuelo);
 
-int Passenger_printPassenger(Passenger* this);
+int Passenger_setAll(Passenger* this,int id, char* nombre, char* apellido, char* codigoVuelo, int tipoPasajero, float precio, int estadoVuelo);
+int Passenger_getAll(Passenger* this,int* id, char* nombre, char* apellido, char* codigoVuelo, int* tipoPasajero, float* precio, int* estadoVuelo);
+
+int Passenger_printPassenger(LinkedList* pArrayListPassenger, int index);
+void printHeader();
+
+int Passenger_edit(LinkedList* pArrayListPassenger);
+int Passenger_sort(LinkedList* pArrayListPassenger);
+
+int Passenger_traductorTipoVueloChar(char* tipoPasajero);
+int Passenger_traductorEstadoVueloChar(char* estadoVuelo);
+
+int Passenger_lastId(LinkedList* pArrayListPassenger);
 
 #endif /* PASSENGER_H_ */

@@ -8,4 +8,7 @@ int utn_getNumeroFlotante(float* pResultado, char* mensaje, char* mensajeError, 
 int utn_getNombre(char* pResultado, int longitud,char* mensaje, char* mensajeError, int reintentos);
 int utn_getDescripcion(char* pResultado, int longitud,char* mensaje, char* mensajeError, int reintentos);
 int utn_getDni(char* pResultado, int longitud,char* mensaje, char* mensajeError, int reintentos);
+int utn_getFechaDeNacimiento(char* pResultado, int longitud,char* mensaje, char* mensajeError, int reintentos);
+int utn_isLetter(char* pResultado);
+int utn_getString(char* pResultado, char* mensaje, char* mensajeError);
 #endif /* UTN_H_ */
