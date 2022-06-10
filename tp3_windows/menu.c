@@ -52,16 +52,17 @@ int menuOrdenar(){
 
 	utn_getNumero(&opc,
 					"\n*****************************MENU ORDENAR*****************************\n\n"
-							"1. Nombre \n"
-							"2. Apellido \n"
-							"3. Precio\n"
-							"4. Tipo de pasajero\n"
-							"5. Codigo de vuelo\n"
-							"6. Estado de vuelo\n"
-							"7. Regresar al menu principal\n"
+							"1. Id\n"
+							"2. Nombre\n"
+							"3. Apellido\n"
+							"4. Precio\n"
+							"5. Tipo de pasajero\n"
+							"6. Codigo de vuelo\n"
+							"7. Estado de vuelo\n"
+							"8. Regresar al menu principal\n"
 					"\n**************************************************************************\n"
 							"\nElija una opcion: ",
-							"\nError opcion invalida", 1, 7, 2);
+							"\nError opcion invalida", 1, 8, 2);
 
 	return opc;
 }

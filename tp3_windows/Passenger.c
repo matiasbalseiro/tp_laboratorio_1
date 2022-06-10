@@ -209,36 +209,6 @@ int Passenger_getEstadoVuelo(Passenger* this,int* estadoVuelo){
 	return retorno;
 }
 
-//int Passenger_printPassenger(Passenger* this){
-//
-//		int retorno = -1;
-//		int index;
-//		int id;
-//		char nombre[128];
-//		char apellido[128];
-//		float precio;
-//		char codigoVuelo[128];
-//		int tipoPasajero;
-//		int estadoVuelo;
-//		Passenger* unPasajero;
-
-//		if(this != NULL){
-//		unPasajero = (Passenger*)ll_get(this, index);
-//		Passenger_getId(unPasajero, &id);
-//		Passenger_getNombre(unPasajero, nombre);
-//		Passenger_getApellido(unPasajero, apellido);
-//		Passenger_getPrecio(unPasajero, &precio);
-//		Passenger_getCodigoVuelo(unPasajero, codigoVuelo);
-//		Passenger_getTipoPasajero(unPasajero, &tipoPasajero);
-//		Passenger_getEstadoVuelo(unPasajero, &estadoVuelo);
-
-//		printf("|%*d|%*s|%*s|%*.2f|%*s|%*d|%*d|\n", -13, this->id, -13, this->nombre, -13, this->apellido, -13, this->precio, -13, this->codigoVuelo, -13, this->tipoPasajero, -13, this->estadoVuelo);
-//
-//		retorno = 0;
-//	}
-//	return retorno;
-//}
-
 int Passenger_lastId(LinkedList* pArrayListPassenger){
 
 	Passenger* unPasajero;
@@ -292,42 +262,6 @@ void printHeader(){
 
 	printf("\n|%*s|%*s|%*s|%*s|%*s|%*s|%*s|\n",-13,"ID",-13, "Nombre", -13, "Apellido", -13, "Precio", -13, "Codigo", -13, "Clase", -13, "Estado");
 	printf("+-------------+-------------+-------------+-------------+-------------+-------------+-------------+\n");
-
-}
-
-int Passenger_traductorTipoVueloChar(char* tipoPasajero){
-
-	int auxTipoPasajero;
-
-	if(!stricmp(tipoPasajero, "FirstClass")){
-		auxTipoPasajero = 1;
-	}
-	else if(!stricmp(tipoPasajero, "EconomyClass")){
-		auxTipoPasajero = 2;
-	}
-	else if(!stricmp(tipoPasajero, "ExecutiveClass")){
-		auxTipoPasajero = 3;
-	}
-
-	return auxTipoPasajero;
-}
-int Passenger_traductorEstadoVueloChar(char* estadoVuelo){
-	int auxestadoVuelo;
-
-	if(!stricmp(estadoVuelo, "Aterrizado")){
-		auxestadoVuelo = 1;
-	}
-	else if(!stricmp(estadoVuelo, "En Horario")){
-		auxestadoVuelo = 2;
-	}
-	else if(!stricmp(estadoVuelo, "En Vuelo")){
-		auxestadoVuelo = 3;
-	}
-	else if(!stricmp(estadoVuelo, "Demorado")){
-		auxestadoVuelo = 4;
-	}
-
-	return auxestadoVuelo;
 
 }
 
@@ -417,42 +351,262 @@ int Passenger_sort(LinkedList* pArrayListPassenger){
 			opcion = menuOrdenar();
 			switch(opcion){
 				case 1:
-					if(!utn_getNumero(&orden, "\n1: FirstClass.\n2: EconomyClass.\n3: ExecutiveClass.\n\nIndique clase de viaje: ", "ERROR\n", 1, 3, 2)){
-
+					if(!utn_getNumero(&orden, "\n0: Ascendente.\n1: Descendente.\n\nIndique clase de viaje: ", "ERROR\n", 0, 1, 2)){
+						printf("Ordenando, espere unos segundos...");
+						ll_sort(pArrayListPassenger, Passenger_sortById, orden);
+						controller_ListPassenger(pArrayListPassenger);
 					}
 					break;
 				case 2:
-					if(!utn_getNumero(&orden, "\n1: FirstClass.\n2: EconomyClass.\n3: ExecutiveClass.\n\nIndique clase de viaje: ", "ERROR\n", 1, 3, 2)){
-
+					if(!utn_getNumero(&orden, "\n0: Ascendente.\n1: Descendente.\n\nIndique clase de viaje: ", "ERROR\n", 0, 1, 2)){
+						printf("Ordenando, espere unos segundos...");
+						ll_sort(pArrayListPassenger, Passenger_sortByName, orden);
+						controller_ListPassenger(pArrayListPassenger);
 					}
 					break;
 				case 3:
-					if(!utn_getNumero(&orden, "\n1: FirstClass.\n2: EconomyClass.\n3: ExecutiveClass.\n\nIndique clase de viaje: ", "ERROR\n", 1, 3, 2)){
-
+					if(!utn_getNumero(&orden, "\n0: Ascendente.\n1: Descendente.\n\nIndique clase de viaje: ", "ERROR\n", 0, 1, 2)){
+						printf("Ordenando, espere unos segundos...");
+						ll_sort(pArrayListPassenger, Passenger_sortByLastName, orden);
+						controller_ListPassenger(pArrayListPassenger);
 					}
 					break;
 				case 4:
-					if(!utn_getNumero(&orden, "\n1: FirstClass.\n2: EconomyClass.\n3: ExecutiveClass.\n\nIndique clase de viaje: ", "ERROR\n", 1, 3, 2)){
-
+					if(!utn_getNumero(&orden, "\n0: Ascendente.\n1: Descendente.\n\nIndique clase de viaje: ", "ERROR\n", 0, 1, 2)){
+						printf("Ordenando, espere unos segundos...");
+						ll_sort(pArrayListPassenger, Passenger_sortByPrice, orden);
+						controller_ListPassenger(pArrayListPassenger);
 					}
 					break;
 				case 5:
-					if(!utn_getNumero(&orden, "\n1: FirstClass.\n2: EconomyClass.\n3: ExecutiveClass.\n\nIndique clase de viaje: ", "ERROR\n", 1, 3, 2)){
-
+					if(!utn_getNumero(&orden, "\n0: Ascendente.\n1: Descendente.\n\nIndique clase de viaje: ", "ERROR\n", 0, 1, 2)){
+						printf("Ordenando, espere unos segundos...");
+						ll_sort(pArrayListPassenger, Passenger_sortTypePassenger, orden);
+						controller_ListPassenger(pArrayListPassenger);
 					}
 					break;
 				case 6:
-					if(!utn_getNumero(&orden, "\n1: FirstClass.\n2: EconomyClass.\n3: ExecutiveClass.\n\nIndique clase de viaje: ", "ERROR\n", 1, 3, 2)){
-
+					if(!utn_getNumero(&orden, "\n0: Ascendente.\n1: Descendente.\n\nIndique clase de viaje: ", "ERROR\n", 0, 1, 2)){
+						printf("Ordenando, espere unos segundos...");
+						ll_sort(pArrayListPassenger, Passenger_sortFlyCode, orden);
+						controller_ListPassenger(pArrayListPassenger);
 					}
 					break;
 				case 7:
+					if(!utn_getNumero(&orden, "\n0: Ascendente.\n1: Descendente.\n\nIndique clase de viaje: ", "ERROR\n", 0, 1, 2)){
+						printf("Ordenando, espere unos segundos...");
+						ll_sort(pArrayListPassenger, Passenger_sortTypePassenger, orden);
+						controller_ListPassenger(pArrayListPassenger);
+					}
+					break;
+				case 8:
 					printf("Regresando al menu principal...\n");
 					retorno = 0;
 					break;
 				}
-			}while(opcion != 7);
+			}while(opcion != 8);
 		}
 	return retorno;
 }
+
+int Passenger_sortById(void* primerPasajero, void* segundoPasajero){
+
+	int retorno = 0;
+	Passenger* pasajeroUno = NULL;
+	Passenger* pasajeroDos = NULL;
+	int idUno;
+	int idDos;
+
+	if(primerPasajero != NULL && segundoPasajero != NULL){
+		pasajeroUno = (Passenger*) primerPasajero;
+		pasajeroDos = (Passenger*) segundoPasajero;
+		Passenger_getId(pasajeroUno, &idUno);
+		Passenger_getId(pasajeroDos, &idDos);
+		if(idUno > idDos){
+			retorno = 1;
+		}
+		else if(idUno < idDos){
+			retorno = -1;
+		}
+	}
+
+	return retorno;
+}
+
+int Passenger_sortByName(void* primerPasajero, void* segundoPasajero){
+
+	int retorno = 0;
+	Passenger* pasajeroUno = NULL;
+	Passenger* pasajeroDos = NULL;
+	char nombreUno[128];
+	char nombreDos[128];
+
+	if(primerPasajero != NULL && segundoPasajero != NULL){
+		pasajeroUno = (Passenger*) primerPasajero;
+		pasajeroDos = (Passenger*) segundoPasajero;
+		Passenger_getNombre(pasajeroUno, nombreUno);
+		Passenger_getNombre(pasajeroDos, nombreDos);
+		if(strcmp(nombreUno, nombreDos) > 0){
+			retorno = 1;
+		}
+		else if(strcmp(nombreUno, nombreDos) < 0){
+			retorno = -1;
+		}
+	}
+	return retorno;
+}
+
+int Passenger_sortByLastName(void* primerPasajero, void* segundoPasajero){
+
+	int retorno = 0;
+	Passenger* pasajeroUno = NULL;
+	Passenger* pasajeroDos = NULL;
+	char apellidoUno[128];
+	char apellidoDos[128];
+
+	if(primerPasajero != NULL && segundoPasajero != NULL){
+		pasajeroUno = (Passenger*) primerPasajero;
+		pasajeroDos = (Passenger*) segundoPasajero;
+		Passenger_getApellido(pasajeroUno, apellidoUno);
+		Passenger_getApellido(pasajeroDos, apellidoDos);
+		if(strcmp(apellidoUno, apellidoDos) > 0){
+			retorno = 1;
+		}
+		else if(strcmp(apellidoUno, apellidoDos) < 0){
+			retorno = -1;
+		}
+	}
+
+	return retorno;
+}
+
+int Passenger_sortByPrice(void* primerPasajero, void* segundoPasajero){
+
+	int retorno = 0;
+	Passenger* pasajeroUno = NULL;
+	Passenger* pasajeroDos = NULL;
+	float precioUno;
+	float precioDos;
+
+	if(primerPasajero != NULL && segundoPasajero != NULL){
+		pasajeroUno = (Passenger*) primerPasajero;
+		pasajeroDos = (Passenger*) segundoPasajero;
+		Passenger_getPrecio(pasajeroUno, &precioUno);
+		Passenger_getPrecio(pasajeroDos, &precioDos);
+		if(precioUno > precioDos){
+			retorno = 1;
+		}
+		else if(precioUno < precioDos){
+			retorno = -1;
+		}
+	}
+	return retorno;
+}
+
+int Passenger_sortFlyCode(void* primerPasajero, void* segundoPasajero){
+
+	int retorno = 0;
+	Passenger* pasajeroUno = NULL;
+	Passenger* pasajeroDos = NULL;
+	char codigoVueloUno[128];
+	char codigoVueloDos[128];
+
+	if(primerPasajero != NULL && segundoPasajero != NULL){
+		pasajeroUno = (Passenger*) primerPasajero;
+		pasajeroDos = (Passenger*) segundoPasajero;
+		Passenger_getCodigoVuelo(pasajeroUno, codigoVueloUno);
+		Passenger_getCodigoVuelo(pasajeroDos, codigoVueloDos);
+		if(strcmp(codigoVueloUno, codigoVueloDos) > 0){
+			retorno = 1;
+		}
+		else if(strcmp(codigoVueloUno, codigoVueloDos) < 0){
+			retorno = -1;
+		}
+	}
+
+	return retorno;
+}
+
+int Passenger_sortTypePassenger(void* primerPasajero, void* segundoPasajero){
+
+	int retorno = 0;
+	Passenger* pasajeroUno = NULL;
+	Passenger* pasajeroDos = NULL;
+	int tipoPasajeroUno;
+	int tipoPasajeroDos;
+
+	if(primerPasajero != NULL && segundoPasajero != NULL){
+		pasajeroUno = (Passenger*) primerPasajero;
+		pasajeroDos = (Passenger*) segundoPasajero;
+		Passenger_getTipoPasajero(pasajeroUno, &tipoPasajeroUno);
+		Passenger_getTipoPasajero(pasajeroDos, &tipoPasajeroDos);
+		if(tipoPasajeroUno > tipoPasajeroDos){
+			retorno = 1;
+		}
+		else if(tipoPasajeroUno < tipoPasajeroDos){
+			retorno = -1;
+		}
+	}
+	return retorno;
+}
+
+int Passenger_sortStatusFlight(void* primerPasajero, void* segundoPasajero){
+
+	int retorno = 0;
+	Passenger* pasajeroUno = NULL;
+	Passenger* pasajeroDos = NULL;
+	int estadoVueloUno;
+	int estadoVueloDos;
+
+	if(primerPasajero != NULL && segundoPasajero != NULL){
+		pasajeroUno = (Passenger*) primerPasajero;
+		pasajeroDos = (Passenger*) segundoPasajero;
+		Passenger_getEstadoVuelo(pasajeroUno, &estadoVueloUno);
+		Passenger_getEstadoVuelo(pasajeroDos, &estadoVueloDos);
+		if(estadoVueloUno > estadoVueloDos){
+			retorno = 1;
+		}
+		else if(estadoVueloUno < estadoVueloDos){
+			retorno = -1;
+		}
+	}
+	return retorno;
+}
+
+int Passenger_traductorTipoVueloChar(char* tipoPasajero){
+
+	int auxTipoPasajero;
+
+	if(!stricmp(tipoPasajero, "FirstClass")){
+		auxTipoPasajero = 1;
+	}
+	else if(!stricmp(tipoPasajero, "EconomyClass")){
+		auxTipoPasajero = 2;
+	}
+	else if(!stricmp(tipoPasajero, "ExecutiveClass")){
+		auxTipoPasajero = 3;
+	}
+
+	return auxTipoPasajero;
+}
+int Passenger_traductorEstadoVueloChar(char* estadoVuelo){
+	int auxestadoVuelo;
+
+	if(!stricmp(estadoVuelo, "Aterrizado")){
+		auxestadoVuelo = 1;
+	}
+	else if(!stricmp(estadoVuelo, "En Horario")){
+		auxestadoVuelo = 2;
+	}
+	else if(!stricmp(estadoVuelo, "En Vuelo")){
+		auxestadoVuelo = 3;
+	}
+	else if(!stricmp(estadoVuelo, "Demorado")){
+		auxestadoVuelo = 4;
+	}
+
+	return auxestadoVuelo;
+
+}
+
 

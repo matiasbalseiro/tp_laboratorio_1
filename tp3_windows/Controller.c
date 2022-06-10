@@ -210,12 +210,13 @@ int controller_sortPassenger(LinkedList* pArrayListPassenger){
 
 	int retorno = -1;
 
-
 	if(pArrayListPassenger != NULL){
-
+		Passenger_sort(pArrayListPassenger);
+		retorno = 0;
 	}
-		return retorno;
+	return retorno;
 }
+
 
 /** \brief Guarda los datos de los pasajeros en el archivo data.csv (modo texto).
  *
@@ -243,7 +244,6 @@ int controller_saveAsBinary(char* path , LinkedList* pArrayListPassenger){
     return 1;
 }
 
-
 int controller_findPassengerById(LinkedList* pArrayListPassenger, int idBuscado){
 
 	int retorno = -1;
@@ -262,3 +262,4 @@ int controller_findPassengerById(LinkedList* pArrayListPassenger, int idBuscado)
 		}
 	return retorno;
 }
+

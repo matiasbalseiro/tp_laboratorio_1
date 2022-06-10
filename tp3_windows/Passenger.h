@@ -1,9 +1,3 @@
-/*
- * Passenger.h
- *
- *  Created on: 19 may. 2022
- *
- */
 
 #ifndef PASSENGER_H_
 #define PASSENGER_H_
@@ -49,15 +43,24 @@ int Passenger_getEstadoVuelo(Passenger* this,int* estadoVuelo);
 int Passenger_setAll(Passenger* this,int id, char* nombre, char* apellido, char* codigoVuelo, int tipoPasajero, float precio, int estadoVuelo);
 int Passenger_getAll(Passenger* this,int* id, char* nombre, char* apellido, char* codigoVuelo, int* tipoPasajero, float* precio, int* estadoVuelo);
 
+int Passenger_lastId(LinkedList* pArrayListPassenger);
+
 int Passenger_printPassenger(LinkedList* pArrayListPassenger, int index);
 void printHeader();
 
 int Passenger_edit(LinkedList* pArrayListPassenger);
 int Passenger_sort(LinkedList* pArrayListPassenger);
 
+int Passenger_sortById(void* primerPasajero, void* segundoPasajero);
+int Passenger_sortByName(void* primerPasajero, void* segundoPasajero);
+int Passenger_sortByLastName(void* primerPasajero, void* segundoPasajero);
+int Passenger_sortByPrice(void* primerPasajero, void* segundoPasajero);
+int Passenger_sortFlyCode(void* primerPasajero, void* segundoPasajero);
+int Passenger_sortTypePassenger(void* primerPasajero, void* segundoPasajero);
+int Passenger_sortStatusFlight(void* primerPasajero, void* segundoPasajero);
+
 int Passenger_traductorTipoVueloChar(char* tipoPasajero);
 int Passenger_traductorEstadoVueloChar(char* estadoVuelo);
 
-int Passenger_lastId(LinkedList* pArrayListPassenger);
-
 #endif /* PASSENGER_H_ */
+

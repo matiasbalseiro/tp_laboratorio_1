@@ -6,6 +6,4 @@ int menuPrincipal();
 int menuModificar();
 int menuOrdenar();
 
-
-
 #endif /* MENU_H_ */
