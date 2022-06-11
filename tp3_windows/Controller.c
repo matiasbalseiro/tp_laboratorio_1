@@ -17,7 +17,7 @@
  */
 int controller_loadFromText(char* path , LinkedList* pArrayListPassenger){
 
-	FILE* parch;
+	FILE* parch = NULL;
 	int retorno = -1;
 
 	if(path != NULL && pArrayListPassenger != NULL){
@@ -43,7 +43,7 @@ int controller_loadFromText(char* path , LinkedList* pArrayListPassenger){
  */
 int controller_loadFromBinary(char* path , LinkedList* pArrayListPassenger){
 
-	FILE* parch;
+	FILE* parch = NULL;
 	int retorno = -1;
 
 	if(path != NULL && pArrayListPassenger != NULL){
@@ -68,7 +68,7 @@ int controller_loadFromBinary(char* path , LinkedList* pArrayListPassenger){
 int controller_addPassenger(LinkedList* pArrayListPassenger){
 
 	int retorno = 0;
-	Passenger* nuevoPasajero;
+	Passenger* auxPasajero = NULL;
 	char auxNombre[128];
 	char auxApellido[128];
 	float auxPrecio;
@@ -85,16 +85,16 @@ int controller_addPassenger(LinkedList* pArrayListPassenger){
 			!utn_getNumero(&auxTipoPasajero, "\n1: FirstClass.\n2: EconomyClass.\n3: ExecutiveClass.\n\nIndique clase de viaje: ", "ERROR\n", 1, 3, 2) &&
 			!utn_getDescripcion(auxCodigoVuelo, 128, "\nIndique codigo de vuelo. (Hasta 9 caracteres): ", "ERROR\n", 2) &&
 			!utn_getNumero(&auxEstadoVuelo, "\n1: Aterrizado.\n2: En Horario.\n3: En Vuelo.\n4: Demorado.\n\nIndique, estado de vuelo: ", "ERROR\n", 1, 4, 2)) {
-			nuevoPasajero = Passenger_new();
+			auxPasajero = Passenger_new();
 			nextId = Passenger_lastId(pArrayListPassenger) + 1;
-			Passenger_setId(nuevoPasajero, nextId);
-			Passenger_setNombre(nuevoPasajero, auxApellido);
-			Passenger_setApellido(nuevoPasajero, auxNombre);
-			Passenger_setPrecio(nuevoPasajero, auxPrecio);
-			Passenger_setTipoPasajero(nuevoPasajero, auxTipoPasajero);
-			Passenger_setCodigoVuelo(nuevoPasajero, auxCodigoVuelo);
-			Passenger_setEstadoVuelo(nuevoPasajero, auxEstadoVuelo);
-			ll_add(pArrayListPassenger, nuevoPasajero);
+			Passenger_setId(auxPasajero, nextId);
+			Passenger_setNombre(auxPasajero, auxApellido);
+			Passenger_setApellido(auxPasajero, auxNombre);
+			Passenger_setPrecio(auxPasajero, auxPrecio);
+			Passenger_setTipoPasajero(auxPasajero, auxTipoPasajero);
+			Passenger_setCodigoVuelo(auxPasajero, auxCodigoVuelo);
+			Passenger_setEstadoVuelo(auxPasajero, auxEstadoVuelo);
+			ll_add(pArrayListPassenger, auxPasajero);
 			printf("\nCARGA EXITOSA. SE DIO DE ALTA AL PASAJERO\n");
 			retorno = 0;
 		}
@@ -129,7 +129,7 @@ int controller_editPassenger(LinkedList* pArrayListPassenger){
 int controller_removePassenger(LinkedList* pArrayListPassenger){
 
 	int retorno = -1;
-	Passenger* unPasajero;
+	Passenger* auxPasajero = NULL;
 	int auxId;
 	int lastId;
 	int index;
@@ -144,11 +144,11 @@ int controller_removePassenger(LinkedList* pArrayListPassenger){
 		if(index != -1){
 			printHeader();
 			Passenger_printPassenger(pArrayListPassenger, index);
-			unPasajero = (Passenger*)ll_get(pArrayListPassenger, index);
+			auxPasajero = (Passenger*)ll_get(pArrayListPassenger, index);
 			utn_getString(&respuesta, "\nDesea remover ese pasajero? s/n \n", "ERROR\n");
 			if(respuesta == 's'){
 				ll_remove(pArrayListPassenger, index);
-				Passenger_delete(unPasajero);
+				Passenger_delete(auxPasajero);
 				printf("\nBAJA EXITOSA. SE HAN GUARDADO LOS CAMBIOS\n");
 				retorno = 0;
 			}
@@ -170,7 +170,7 @@ int controller_removePassenger(LinkedList* pArrayListPassenger){
 int controller_ListPassenger(LinkedList* pArrayListPassenger){
 
 	int retorno = -1;
-	Passenger* nuevoPasajero;
+	Passenger* auxPasajero = NULL;
 	int id;
 	char nombre[128];
 	char apellido[128];
@@ -182,14 +182,14 @@ int controller_ListPassenger(LinkedList* pArrayListPassenger){
 	if(pArrayListPassenger != NULL){
 		printf("\n|%*s|%*s|%*s|%*s|%*s|%*s|%*s|\n\n",-13,"ID",-13, "Nombre", -13, "Apellido", -13, "Precio", -13, "Clase", -13, "Codigo", -13, "Estado");
 		for(int i = 0; i < ll_len(pArrayListPassenger); i++){
-			nuevoPasajero = (Passenger*)ll_get(pArrayListPassenger, i); //como es puntero a void hay que castear // el get obtiene algo que esta creado en memoria
-			Passenger_getId(nuevoPasajero, &id);
-			Passenger_getNombre(nuevoPasajero, nombre);
-			Passenger_getApellido(nuevoPasajero, apellido);
-			Passenger_getPrecio(nuevoPasajero, &precio);
-			Passenger_getCodigoVuelo(nuevoPasajero, codigoVuelo);
-			Passenger_getTipoPasajero(nuevoPasajero, &tipoPasajero);
-			Passenger_getEstadoVuelo(nuevoPasajero, &estadoVuelo);
+			auxPasajero = (Passenger*)ll_get(pArrayListPassenger, i); //como es puntero a void hay que castear // el get obtiene algo que esta creado en memoria
+			Passenger_getId(auxPasajero, &id);
+			Passenger_getNombre(auxPasajero, nombre);
+			Passenger_getApellido(auxPasajero, apellido);
+			Passenger_getPrecio(auxPasajero, &precio);
+			Passenger_getCodigoVuelo(auxPasajero, codigoVuelo);
+			Passenger_getTipoPasajero(auxPasajero, &tipoPasajero);
+			Passenger_getEstadoVuelo(auxPasajero, &estadoVuelo);
 
 			printf("|%*d|%*s|%*s|%*.2f|%*s|%*d|%*d|\n", -13, id, -13, nombre, -13, apellido, -13, precio, -13, codigoVuelo, -13, tipoPasajero, -13, estadoVuelo);
 
@@ -227,8 +227,13 @@ int controller_sortPassenger(LinkedList* pArrayListPassenger){
  */
 int controller_saveAsText(char* path , LinkedList* pArrayListPassenger){
 
+	int retorno = -1;
 
-    return 1;
+	if(path != NULL && pArrayListPassenger != NULL){
+
+	}
+
+    return retorno;
 }
 
 /** \brief Guarda los datos de los pasajeros en el archivo data.csv (modo binario).
@@ -240,8 +245,22 @@ int controller_saveAsText(char* path , LinkedList* pArrayListPassenger){
  */
 int controller_saveAsBinary(char* path , LinkedList* pArrayListPassenger){
 
+	int retorno = -1;
+	Passenger* auxPasajero = NULL;
+	FILE* parch = NULL;
 
-    return 1;
+	if(path != NULL && pArrayListPassenger != NULL){
+		parch = fopen(path, "wb");
+		if(parch != NULL){
+			for(int i = 0; i < ll_len(pArrayListPassenger); i++){
+				auxPasajero = (Passenger*)ll_get(pArrayListPassenger, i);
+				fwrite(auxPasajero, sizeof(Passenger), 1, parch);
+				retorno = 0;
+			}
+			printf("\nArchivo en modo binario guardado correctamente.\n");
+		}
+	}
+    return retorno;
 }
 
 int controller_findPassengerById(LinkedList* pArrayListPassenger, int idBuscado){
