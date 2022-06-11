@@ -9,7 +9,7 @@
  *
  * \param path char*
  * \param pArrayListPassenger LinkedList*
- * \return int
+ * \return Retorna -1 si hubo error o 0 si no
  *
  */
 int parser_PassengerFromText(FILE* pFile , LinkedList* pArrayListPassenger){
@@ -44,7 +44,7 @@ int parser_PassengerFromText(FILE* pFile , LinkedList* pArrayListPassenger){
  *
  * \param path char*
  * \param pArrayListPassenger LinkedList*
- * \return int
+ * \return Retorna -1 si hubo error o 0 si no
  *
  */
 int parser_PassengerFromBinary(FILE* pFile , LinkedList* pArrayListPassenger){

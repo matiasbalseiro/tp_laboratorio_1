@@ -3,6 +3,9 @@
 #include "menu.h"
 #include "utn.h"
 
+/// @brief Menu principal
+///
+/// @return Retorna la opcion seleccionada
 int menuPrincipal(){
 
 	int opc;
@@ -26,6 +29,9 @@ int menuPrincipal(){
 	return opc;
 }
 
+/// @brief Menu modificar
+///
+/// @return Retorna la opcion seleccionada
 int menuModificar(){
 
 	int opc;
@@ -46,6 +52,9 @@ int menuModificar(){
 	return opc;
 }
 
+/// @brief Menu ordenar
+///
+/// @return Retorna la opcion seleccionada
 int menuOrdenar(){
 
 	int opc;

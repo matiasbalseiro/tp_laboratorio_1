@@ -27,6 +27,9 @@ int main(){
 	setbuf(stdout, NULL);
 
     int opcion;
+    int flagTxt = 0;
+    int flagBin = 0;
+    int flagAdd = 0;
 
     LinkedList* listaPasajeros = ll_newLinkedList();
     do{
@@ -34,37 +37,58 @@ int main(){
         switch(opcion){
             case 1:
                 controller_loadFromText(ARCHIVO_TXT,listaPasajeros);
+                flagTxt = 1;
                 break;
 
             case 2:
             	controller_loadFromBinary(ARCHIVO_BIN,listaPasajeros);
+            	flagBin = 1;
             	break;
 
 			case 3:
 				controller_addPassenger(listaPasajeros);
+				flagAdd = 1;
 				break;
 
 			case 4:
+				if(flagTxt == 1 || flagBin == 1 || flagAdd == 1){
+
+				}
 				controller_editPassenger(listaPasajeros);
 				break;
 
 			case 5:
+				if(flagTxt == 1 || flagBin == 1 || flagAdd == 1){
+
+				}
 				controller_removePassenger(listaPasajeros);
 				break;
 
 			case 6:
+				if(flagTxt == 1 || flagBin == 1 || flagAdd == 1){
+
+				}
 				controller_ListPassenger(listaPasajeros);
 				break;
 
 			case 7:
+				if(flagTxt == 1 || flagBin == 1 || flagAdd == 1){
+
+				}
 				controller_sortPassenger(listaPasajeros);
 				break;
 
 			case 8:
-				controller_saveAsBinary(ARCHIVO_TXT , listaPasajeros);
+				if(flagTxt == 1 || flagBin == 1 || flagAdd == 1){
+
+				}
+				controller_saveAsText(ARCHIVO_TXT , listaPasajeros);
 				break;
 
 			case 9:
+				if(flagTxt == 1 || flagBin == 1 || flagAdd == 1){
+
+				}
 				controller_saveAsBinary(ARCHIVO_BIN , listaPasajeros);
 				break;
         }
