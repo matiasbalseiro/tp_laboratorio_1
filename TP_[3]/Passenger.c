@@ -460,49 +460,49 @@ int Passenger_sort(LinkedList* pArrayListPassenger){
 			opcion = menuOrdenar();
 			switch(opcion){
 				case 1:
-					if(!utn_getNumero(&orden, "\n0: Ascendente.\n1: Descendente.\n\nIndique tipo de orden: ", "ERROR\n", 0, 1, 2)){
+					if(!utn_getNumero(&orden, "\n0: Descendente.\n1: Ascendente.\n\nIndique tipo de orden: ", "ERROR\n", 0, 1, 2)){
 						printf("Ordenando, espere unos segundos...");
 						ll_sort(pArrayListPassenger, Passenger_sortById, orden);
 						controller_ListPassenger(pArrayListPassenger);
 					}
 					break;
 				case 2:
-					if(!utn_getNumero(&orden, "\n0: Ascendente.\n1: Descendente.\n\nIndique tipo de orden: ", "ERROR\n", 0, 1, 2)){
+					if(!utn_getNumero(&orden, "\n0: Descendente.\n1: Ascendente.\n\nIndique tipo de orden: ", "ERROR\n", 0, 1, 2)){
 						printf("Ordenando, espere unos segundos...");
 						ll_sort(pArrayListPassenger, Passenger_sortByName, orden);
 						controller_ListPassenger(pArrayListPassenger);
 					}
 					break;
 				case 3:
-					if(!utn_getNumero(&orden, "\n0: Ascendente.\n1: Descendente.\n\nIndique tipo de orden: ", "ERROR\n", 0, 1, 2)){
+					if(!utn_getNumero(&orden, "\n0: Descendente.\n1: Ascendente.\n\nIndique tipo de orden: ", "ERROR\n", 0, 1, 2)){
 						printf("Ordenando, espere unos segundos...");
 						ll_sort(pArrayListPassenger, Passenger_sortByLastName, orden);
 						controller_ListPassenger(pArrayListPassenger);
 					}
 					break;
 				case 4:
-					if(!utn_getNumero(&orden, "\n0: Ascendente.\n1: Descendente.\n\nIndique tipo de orden: ", "ERROR\n", 0, 1, 2)){
+					if(!utn_getNumero(&orden, "\n0: Descendente.\n1: Ascendente.\n\nIndique tipo de orden: ", "ERROR\n", 0, 1, 2)){
 						printf("Ordenando, espere unos segundos...");
 						ll_sort(pArrayListPassenger, Passenger_sortByPrice, orden);
 						controller_ListPassenger(pArrayListPassenger);
 					}
 					break;
 				case 5:
-					if(!utn_getNumero(&orden, "\n0: Ascendente.\n1: Descendente.\n\nIndique tipo de orden: ", "ERROR\n", 0, 1, 2)){
+					if(!utn_getNumero(&orden, "\n0: Descendente.\n1: Ascendente.\n\nIndique tipo de orden: ", "ERROR\n", 0, 1, 2)){
 						printf("Ordenando, espere unos segundos...");
 						ll_sort(pArrayListPassenger, Passenger_sortTypePassenger, orden);
 						controller_ListPassenger(pArrayListPassenger);
 					}
 					break;
 				case 6:
-					if(!utn_getNumero(&orden, "\n0: Ascendente.\n1: Descendente.\n\nIndique tipo de orden: ", "ERROR\n", 0, 1, 2)){
+					if(!utn_getNumero(&orden, "\n0: Descendente.\n1: Ascendente.\n\nIndique tipo de orden: ", "ERROR\n", 0, 1, 2)){
 						printf("Ordenando, espere unos segundos...");
 						ll_sort(pArrayListPassenger, Passenger_sortFlyCode, orden);
 						controller_ListPassenger(pArrayListPassenger);
 					}
 					break;
 				case 7:
-					if(!utn_getNumero(&orden, "\n0: Ascendente.\n1: Descendente.\n\nIndique tipo de orden: ", "ERROR\n", 0, 1, 2)){
+					if(!utn_getNumero(&orden, "\n0: Descendente.\n1: Ascendente.\n\nIndique tipo de orden: ", "ERROR\n", 0, 1, 2)){
 						printf("Ordenando, espere unos segundos...");
 						ll_sort(pArrayListPassenger, Passenger_sortTypePassenger, orden);
 						controller_ListPassenger(pArrayListPassenger);
