@@ -18,6 +18,7 @@ Passenger* Passenger_new();
 Passenger* Passenger_newParametros(char *idStr, char *nombreStr, char *apellidoStr, char *precioStr, char *codigoVueloStr, char *tipoPasajeroStr, char *estadoVueloStr);
 
 void Passenger_delete();
+void Passenger_deleteAll(LinkedList* pArrayListPassenger);
 
 int Passenger_setId(Passenger* this,int id);
 int Passenger_getId(Passenger* this,int* id);
@@ -59,8 +60,11 @@ int Passenger_sortFlyCode(void* primerPasajero, void* segundoPasajero);
 int Passenger_sortTypePassenger(void* primerPasajero, void* segundoPasajero);
 int Passenger_sortStatusFlight(void* primerPasajero, void* segundoPasajero);
 
-int Passenger_traductorTipoVueloChar(char* tipoPasajero);
+int Passenger_traductorTipoPasajeroChar(char* tipoPasajero);
 int Passenger_traductorEstadoVueloChar(char* estadoVuelo);
+int Passenger_traductorTipoPasajeroInt(int tipoPasajero, char* tipoPasajeroStr);
+int Passenger_traductorEstadoVueloInt(int estadoVuelo, char* estadoVueloStr);
+
 
 #endif /* PASSENGER_H_ */
 

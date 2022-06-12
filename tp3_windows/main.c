@@ -4,6 +4,7 @@
 #include "Controller.h"
 #include "Passenger.h"
 #include "menu.h"
+#include "utn.h"
 #define ARCHIVO_TXT "data.csv"
 #define ARCHIVO_BIN "data.bin"
 
@@ -27,48 +28,105 @@ int main(){
 	setbuf(stdout, NULL);
 
     int opcion;
+    char respuesta;
+    int flagCarga = 0;
+    LinkedList* pArrayListPassenger;
 
-    LinkedList* listaPasajeros = ll_newLinkedList();
+    pArrayListPassenger = ll_newLinkedList();
     do{
     	opcion = menuPrincipal();
         switch(opcion){
             case 1:
-                controller_loadFromText(ARCHIVO_TXT,listaPasajeros);
+            	if(flagCarga == 0){
+            		controller_loadFromText(ARCHIVO_TXT,pArrayListPassenger);
+            		flagCarga = 1;
+            	} else {
+            		printf("ERROR, no se puede cargar el archivo dos veces.\n");
+            	}
                 break;
 
             case 2:
-            	controller_loadFromBinary(ARCHIVO_BIN,listaPasajeros);
+            	if(flagCarga == 0){
+                	controller_loadFromBinary(ARCHIVO_BIN,pArrayListPassenger);
+                	flagCarga = 1;
+            	} else {
+					printf("ERROR, no se puede cargar el archivo dos veces.\n");
+				}
             	break;
 
 			case 3:
-				controller_addPassenger(listaPasajeros);
+				controller_addPassenger(pArrayListPassenger);
+            	flagCarga = 1;
 				break;
 
 			case 4:
-				controller_editPassenger(listaPasajeros);
+				if(flagCarga == 1){
+					controller_editPassenger(pArrayListPassenger);
+
+				} else {
+					printf("ERROR, primero debes cargar al menos un pasajero.\n");
+				}
 				break;
 
 			case 5:
-				controller_removePassenger(listaPasajeros);
+				if(flagCarga == 1){
+					controller_removePassenger(pArrayListPassenger);
+
+				} else {
+					printf("ERROR, primero debes cargar al menos un pasajero.\n");
+				}
 				break;
 
 			case 6:
-				controller_ListPassenger(listaPasajeros);
+				if(flagCarga == 1){
+					controller_ListPassenger(pArrayListPassenger);
+
+				} else {
+					printf("ERROR, primero debes cargar al menos un pasajero.\n");
+				}
 				break;
 
 			case 7:
-				controller_sortPassenger(listaPasajeros);
+				if(flagCarga == 1){
+					controller_sortPassenger(pArrayListPassenger);
+
+				} else {
+					printf("ERROR, primero debes cargar al menos un pasajero.\n");
+				}
 				break;
 
 			case 8:
-				controller_saveAsBinary(ARCHIVO_TXT , listaPasajeros);
+				if(flagCarga == 1){
+					controller_saveAsText(ARCHIVO_TXT , pArrayListPassenger);
+
+				} else {
+					printf("ERROR, primero debes cargar al menos un pasajero.\n");
+				}
 				break;
 
 			case 9:
-				controller_saveAsBinary(ARCHIVO_BIN , listaPasajeros);
+				if(flagCarga == 1){
+					controller_saveAsBinary(ARCHIVO_BIN , pArrayListPassenger);
+				} else {
+					printf("ERROR, primero debes cargar al menos un pasajero.\n");
+				}
+				break;
+
+			case 10:
+				if(flagCarga == 1){
+					utn_getString(&respuesta, "No guardaste ningun cambio.\nEstas seguro que deseas salir del programa? s/n\n", "ERROR\n");
+				} else {
+					utn_getString(&respuesta, "Estas seguro que deseas salir del programa? s/n\n", "ERROR\n");
+				}
+				if(respuesta == 's'){
+					Passenger_deleteAll(pArrayListPassenger);
+					ll_deleteLinkedList(pArrayListPassenger);
+
+					printf("\nAdios\n");
+				}
 				break;
         }
-    }while(opcion != 10);
+    }while(respuesta != 's');
     return 0;
 }
 

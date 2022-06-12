@@ -12,7 +12,7 @@
  *
  * \param path char*
  * \param pArrayListPassenger LinkedList*
- * \return int
+ * \return Retorna -1 si hubo error o 0 si no
  *
  */
 int controller_loadFromText(char* path , LinkedList* pArrayListPassenger){
@@ -38,7 +38,7 @@ int controller_loadFromText(char* path , LinkedList* pArrayListPassenger){
  *
  * \param path char*
  * \param pArrayListPassenger LinkedList*
- * \return int
+ * \return Retorna -1 si hubo error o 0 si no
  *
  */
 int controller_loadFromBinary(char* path , LinkedList* pArrayListPassenger){
@@ -62,7 +62,7 @@ int controller_loadFromBinary(char* path , LinkedList* pArrayListPassenger){
  *
  * \param path char*
  * \param pArrayListPassenger LinkedList*
- * \return int
+ * \return Retorna -1 si hubo error o 0 si no
  *
  */
 int controller_addPassenger(LinkedList* pArrayListPassenger){
@@ -81,7 +81,7 @@ int controller_addPassenger(LinkedList* pArrayListPassenger){
 	if(pArrayListPassenger != NULL){
 		if (!utn_getNombre(auxNombre, 128, "\nIndique el nombre del pasajero: ", "\nERROR, ingrese un nombre valido.\n", 2) &&
 			!utn_getNombre(auxApellido, 128, "\nIndique el apellido del pasajero: ", "\nERROR, ingrese un apellido valido.\n", 2) &&
-			!utn_getNumeroFlotante(&auxPrecio, "\nIndique el precio del pasaje. ($0 - $3000000): $", "ERROR\n", 0, 3000000, 2) &&
+			!utn_getNumeroFlotante(&auxPrecio, "\nIndique el precio del pasaje. ($6000 - $100000): $", "ERROR\n", 6000, 100000, 2) &&
 			!utn_getNumero(&auxTipoPasajero, "\n1: FirstClass.\n2: EconomyClass.\n3: ExecutiveClass.\n\nIndique clase de viaje: ", "ERROR\n", 1, 3, 2) &&
 			!utn_getDescripcion(auxCodigoVuelo, 128, "\nIndique codigo de vuelo. (Hasta 9 caracteres): ", "ERROR\n", 2) &&
 			!utn_getNumero(&auxEstadoVuelo, "\n1: Aterrizado.\n2: En Horario.\n3: En Vuelo.\n4: Demorado.\n\nIndique, estado de vuelo: ", "ERROR\n", 1, 4, 2)) {
@@ -123,7 +123,7 @@ int controller_editPassenger(LinkedList* pArrayListPassenger){
  *
  * \param path char*
  * \param pArrayListPassenger LinkedList*
- * \return int
+ * \return Retorna -1 si hubo error o 0 si no
  *
  */
 int controller_removePassenger(LinkedList* pArrayListPassenger){
@@ -164,7 +164,7 @@ int controller_removePassenger(LinkedList* pArrayListPassenger){
  *
  * \param path char*
  * \param pArrayListPassenger LinkedList*
- * \return int
+ * \return Retorna -1 si hubo error o 0 si no
  *
  */
 int controller_ListPassenger(LinkedList* pArrayListPassenger){
@@ -203,7 +203,7 @@ int controller_ListPassenger(LinkedList* pArrayListPassenger){
  *
  * \param path char*
  * \param pArrayListPassenger LinkedList*
- * \return int
+ * \return Retorna -1 si hubo error o 0 si no
  *
  */
 int controller_sortPassenger(LinkedList* pArrayListPassenger){
@@ -222,15 +222,41 @@ int controller_sortPassenger(LinkedList* pArrayListPassenger){
  *
  * \param path char*
  * \param pArrayListPassenger LinkedList*
- * \return int
+ * \return Retorna -1 si hubo error o 0 si no
  *
  */
 int controller_saveAsText(char* path , LinkedList* pArrayListPassenger){
 
 	int retorno = -1;
+	FILE* parch = NULL;
+	Passenger* auxPasajero = NULL;
+	int auxId;
+	char auxNombre[128];
+	char auxApellido[128];
+	float auxPrecio;
+	int auxTipoPasajero;
+	char auxCodigoVuelo[128];
+	int auxEstadoVuelo;
 
 	if(path != NULL && pArrayListPassenger != NULL){
-
+		parch = fopen(path, "w");
+		if(parch != NULL){
+			fprintf(parch,"id,name,lastname,price,flycode,typePassenger,statusFlight\n");
+			for(int i = 0; i < ll_len(pArrayListPassenger); i++){
+				auxPasajero = (Passenger*)ll_get(pArrayListPassenger, i);
+				if(auxPasajero != NULL){
+					if(!Passenger_getId(auxPasajero, &auxId) && !Passenger_getNombre(auxPasajero, auxNombre) &&
+						!Passenger_getApellido(auxPasajero, auxApellido) && !Passenger_getPrecio(auxPasajero, &auxPrecio) &&
+						!Passenger_getCodigoVuelo(auxPasajero, auxCodigoVuelo) && !Passenger_getTipoPasajero(auxPasajero, &auxTipoPasajero) &&
+						!Passenger_getEstadoVuelo(auxPasajero, &auxEstadoVuelo)){
+						fprintf(parch, "%d,%s,%s,%.2f,%d,%s,%d\n", auxId, auxNombre, auxApellido, auxPrecio, auxTipoPasajero, auxCodigoVuelo, auxEstadoVuelo);
+						retorno = 0;
+					}
+				}
+			}
+			fclose(parch);
+			printf("\nArchivo en modo texto guardado correctamente.\n");
+		}
 	}
 
     return retorno;
@@ -240,7 +266,7 @@ int controller_saveAsText(char* path , LinkedList* pArrayListPassenger){
  *
  * \param path char*
  * \param pArrayListPassenger LinkedList*
- * \return inT
+ * \return Retorna -1 si hubo error o 0 si no
  *
  */
 int controller_saveAsBinary(char* path , LinkedList* pArrayListPassenger){
@@ -257,12 +283,17 @@ int controller_saveAsBinary(char* path , LinkedList* pArrayListPassenger){
 				fwrite(auxPasajero, sizeof(Passenger), 1, parch);
 				retorno = 0;
 			}
+			fclose(parch);
 			printf("\nArchivo en modo binario guardado correctamente.\n");
 		}
 	}
     return retorno;
 }
-
+/// @brief Busca el pasajero por el id dentro de la lista
+///
+/// @param pArrayListPassenger
+/// @param idBuscado
+/// @return Retorna -1 si no econtro al pasajero o el id si lo encontro
 int controller_findPassengerById(LinkedList* pArrayListPassenger, int idBuscado){
 
 	int retorno = -1;
@@ -281,4 +312,5 @@ int controller_findPassengerById(LinkedList* pArrayListPassenger, int idBuscado)
 		}
 	return retorno;
 }
+
 
