@@ -4,6 +4,8 @@
 #define LEN_NAME 51
 #define LEN_CODE 10
 #define LEN_FORCED_CHARGE 5
+#define ACTIVO 1
+#define CANCELADO 2
 
 struct {
 	int id;
@@ -16,7 +18,7 @@ struct {
 	int isEmpty;
 }typedef Passenger;
 
-
+int increaseId();
 int initPassengers(Passenger *list, int len);
 int addPassenger(Passenger *list, int len, int id, char name[], char lastName[], float price, int typePassenger, char flycode[], int statusFlight);
 int findPassengerById(Passenger *list, int len, int id);
@@ -36,5 +38,11 @@ float totalPrice(Passenger *list, int len);
 float averagePrice(Passenger *list, int len);
 int exceedAverage(Passenger *list, int len);
 int reportPassenger(Passenger *list, int len);
+int printPassengerByCode(Passenger* list, int len);
+int convertTypePassengerToChar(int typePassengerInt, char typePassenger[]);
+int convertStatusFlightToChar(int statusFlightInt, char statusFlight[]);
+
+
+
 
 #endif /* ARRAYPASSENGER_H_ */

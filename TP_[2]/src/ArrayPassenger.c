@@ -4,13 +4,10 @@
 #include "ArrayPassenger.h"
 #include "utn.h"
 
-static const char TXT_TYPES[5][51] = {" ", "Primera", "Ejecutiva", "Premium", "Turista"};
-static const char TXT_STATUS[3][51] = {" ","ACTIVO", "CANCELADO"};
-static int increaseId();
 
 /// @brief Incrementa el id
 /// @return retorna el id del pasajero
-static int increaseId(){
+int increaseId(){
     static int id = 3000;
     id++;
     return id;
@@ -199,7 +196,7 @@ int modifyPassenger(Passenger *list, int len, int id){
 								}
 								break;
 							case 6:
-								printf("Regresando al menu principal...");
+								printf("Regresando al menu principal...\n");
 								retorno = 0;
 								break;
 							}
@@ -231,7 +228,6 @@ int sortPassengers(Passenger *list, int len, int order) {
 		if (utn_getNumero(&bufferOrder, "\n1: Orden ascendente (A - Z) \n2: Orden descendente (Z - A)\n\nIndique orden: ", "ERROR\n", 1, 2, 2) == 0) {
 			order = bufferOrder;
 			}
-
 		do {
 			isOrder = 1;
 			len--;
@@ -317,19 +313,9 @@ int sortPassengersByCode(Passenger *list, int len, int order) {
 						list[i] = list[i + 1];
 						list[i + 1] = bufferFlyCode;
 						isOrder = 0;
-					} else if (stricmp(list[i].flycode, list[i + 1].flycode) == 0 && list[i].statusFlight > list[i + 1].statusFlight){
-						bufferFlyCode = list[i];
-						list[i] = list[i + 1];
-						list[i + 1] = bufferFlyCode;
-						isOrder = 0;
 					}
 				}else{
 					if (stricmp(list[i].flycode, list[i + 1].flycode) < 0){
-						bufferFlyCode = list[i];
-						list[i] = list[i + 1];
-						list[i + 1] = bufferFlyCode;
-						isOrder = 0;
-					} else if (stricmp(list[i].flycode, list[i + 1].flycode) == 0 && list[i].statusFlight < list[i + 1].statusFlight){
 						bufferFlyCode = list[i];
 						list[i] = list[i + 1];
 						list[i + 1] = bufferFlyCode;
@@ -338,11 +324,9 @@ int sortPassengersByCode(Passenger *list, int len, int order) {
 				}
 			}
 		}while (isOrder == 0);
-
 		return retorno;
 	}
-
-return 0;
+	return 0;
 }
 
 /// @brief Busca si hay un espacio libre para cargar un pasajero
@@ -386,8 +370,13 @@ int aPassenger(Passenger *list, int len) {
 /// @param list Puntero al array de pasajeros
 void printPassenger(Passenger list) {
 
+	char typePassengerAux[128];
+	char statusFlightAux[128];
+
 	if(list.isEmpty == 0) {
-		printf("|%*d|%*s|%*s|%*.2f|%*s|%*s|%*s|\n", -13, list.id, -13, list.name, -13, list.lastName, -13, list.price, -13, TXT_TYPES[list.typePassenger], -13, list.flycode, -13, TXT_STATUS[list.statusFlight]);
+		convertTypePassengerToChar(list.typePassenger, typePassengerAux);
+		convertStatusFlightToChar(list.statusFlight, statusFlightAux);
+		printf("|%*d|%*s|%*s|%*.2f|%*s|%*s|%*s|\n", -13, list.id, -13, list.name, -13, list.lastName, -13, list.price, -13, typePassengerAux, -13, list.flycode, -13, statusFlightAux);
 	}
 }
 
@@ -554,10 +543,10 @@ int reportPassenger(Passenger *list, int len){
 							case 3:
 								sortPassengersByCode(list, len, order);
 								printHeader();
-								printPassengers(list, len);
+								printPassengerByCode(list, len);
 								break;
 							case 4:
-								printf("Regresando al menu principal...");
+								printf("Regresando al menu principal...\n");
 								retorno = 0;
 								break;
 							}
@@ -568,4 +557,65 @@ int reportPassenger(Passenger *list, int len){
 		}
 	return retorno;
 }
+
+int printPassengerByCode(Passenger *list, int len) {
+
+	int retorno = -1;
+
+	if (list != NULL && len > 0) {
+		printf("\n");
+		for (int i = 0; i < len; i++) {
+			if (list[i].isEmpty == 0 && list[i].statusFlight == 1) {
+				printPassenger(list[i]);
+				retorno = 0;
+			}
+		}
+	}
+	return retorno;
+}
+
+int convertTypePassengerToChar(int typePassengerInt, char typePassenger[]){
+	int retorno = -1;
+
+	if(typePassenger != NULL){
+		switch(typePassengerInt){
+		case 1:
+			strcpy(typePassenger, "PRIMERA");
+			retorno = 0;
+			break;
+		case 2:
+			strcpy(typePassenger, "EJECUTIVA");
+			retorno = 0;
+			break;
+		case 3:
+			strcpy(typePassenger, "PREMIUM");
+			retorno = 0;
+			break;
+		case 4:
+			strcpy(typePassenger, "TURISTA");
+			retorno = 0;
+			break;
+		}
+	}
+	return retorno;
+}
+
+int convertStatusFlightToChar(int statusFlightInt, char statusFlight[]){
+	int retorno = -1;
+
+	if(statusFlight != NULL){
+		switch(statusFlightInt){
+			case 1:
+				strcpy(statusFlight, "ACTIVO");
+				retorno = 0;
+				break;
+			case 2:
+				strcpy(statusFlight, "CANCELADO");
+				retorno = 0;
+				break;
+		}
+	}
+	return retorno;
+}
+
 
